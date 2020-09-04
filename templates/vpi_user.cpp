@@ -23,7 +23,7 @@
  * Created on December 14, 2019, 10:03 PM
  */
 #include <string.h>
-#include <strings.h>
+// #include <strings.h>
 
 #include <iostream>
 #include <map>
@@ -38,6 +38,9 @@
 #include "headers/vpi_uhdm.h"
 #include "headers/uhdm.h"
 #include "headers/Serializer.h"
+
+#define strcasecmp _stricmp
+#define strdup _strdup
 
 <HEADERS>
 
