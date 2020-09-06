@@ -23,7 +23,12 @@
  * Created on December 14, 2019, 10:03 PM
  */
 #include <string.h>
-// #include <strings.h>
+#if defined(_MSC_VER)
+  #define strcasecmp _stricmp
+  #define strdup _strdup
+#else
+  #include <strings.h>
+#endif
 
 #include <iostream>
 #include <map>
@@ -38,9 +43,6 @@
 #include "headers/vpi_uhdm.h"
 #include "headers/uhdm.h"
 #include "headers/Serializer.h"
-
-#define strcasecmp _stricmp
-#define strdup _strdup
 
 <HEADERS>
 
