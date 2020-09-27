@@ -16,4 +16,14 @@
  
 - obj_def: class_var
   - extends: variables
+  - property: my_identity
+    name: my identity
+    vpi: vpiObjId
+    type: int
+    card: 1
+  - obj_ref: class_obj
+    name: class obj
+    vpi: vpiClassObj
+    type: class_obj
+    card: 1
 

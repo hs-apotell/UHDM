@@ -429,7 +429,7 @@ proc printVpiListener {classname vpi type card} {
 "
         return
     }
-    if {($vpi == "vpiParent") || ($vpi == "vpiInstance")} {
+    if {($vpi == "vpiParent") || ($vpi == "vpiInstance") || ($vpi == "vpiExtends")} {
         # To prevent infinite loops in visitors as these 2 relations are pointing upward in the tree
         return
     }
@@ -555,6 +555,8 @@ proc makeVpiName { classname } {
         set vpiName "vpiFor"
     } elseif {$vpiName == "vpiIoDecl"} {
         set vpiName "vpiIODecl"
+    } elseif {$vpiName == "vpiClockingIoDecl"} {
+        set vpiName "vpiClockingIODecl"
     } elseif {$vpiName == "vpiTfCall"} {
         set vpiName "vpiSysTfCall"
     } elseif {$vpiName == "vpiAtomicStmt"} {
@@ -579,6 +581,8 @@ proc makeVpiName { classname } {
         set vpiName "vpiProcess"
     } elseif {$vpiName == "vpiForeverStmt"} {
         set vpiName "vpiForever"
+    } elseif {$vpiName == "vpiConstrForeach"} {
+        set vpiName "vpiConstrForEach"
     } elseif {$vpiName == "vpiFinalStmt"} {
         set vpiName "vpiFinal"
     } elseif {$vpiName == "vpiWaitStmt"} {

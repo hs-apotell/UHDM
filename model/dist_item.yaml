@@ -12,23 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Universal Hardware Data Model (UHDM) "foreach_stmt" formal description
+# Universal Hardware Data Model (UHDM) "dist item" formal description
  
-- obj_def: foreach_stmt
-  - extends: scope
-  - class_ref: variable
-    name: variable
-    vpi: vpiVariables
-    type: variables
+- obj_def: dist_item
+  - property: distribution_type
+    name: distribution type
+    vpi: vpiDistType
+    type: int
     card: 1
-  - group_ref: vpiLoopVars
-    name: vpiLoopVars
-    vpi: vpiLoopVars
-    type: variables_operation_group
-    card: any
-  - group_ref: vpiStmt
-    name: stmt
-    vpi: vpiStmt
-    type: stmt
+  - group_ref: value_range
+    name: value range
+    vpi: vpiValueRange
+    type: expr_range_group
     card: 1
- 
+  - class_ref: weight
+    name: weight
+    vpi: vpiWeight
+    type: expr
+    card: 1

@@ -12,23 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Universal Hardware Data Model (UHDM) "foreach_stmt" formal description
+# Universal Hardware Data Model (UHDM) "extends" formal description
  
-- obj_def: foreach_stmt
-  - extends: scope
-  - class_ref: variable
-    name: variable
-    vpi: vpiVariables
-    type: variables
+- obj_def: extends
+  - obj_ref: class_typespec
+    name: class typespec
+    vpi: vpiClassTypespec
+    type: class_typespec
     card: 1
-  - group_ref: vpiLoopVars
-    name: vpiLoopVars
-    vpi: vpiLoopVars
-    type: variables_operation_group
+ - class_ref: arguments
+    name: arguments
+    vpi: vpiArgument
+    type: expr
     card: any
-  - group_ref: vpiStmt
-    name: stmt
-    vpi: vpiStmt
-    type: stmt
-    card: 1
- 
+
