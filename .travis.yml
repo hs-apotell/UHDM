@@ -3,14 +3,21 @@ sudo: required
 # Enable C++ support
 language: cpp
 
-# Compiler selection
-compiler:
-  - gcc
-
 matrix:
   fast_finish: true
   include:
+    - os: windows
+      language: shell
+      before_install:
+        - choco install python --version 3.8.0 --no-progress
+        - python --version
+        - python -m pip install --upgrade pip
+      env:
+        - PATH=/c/Python38:/c/Python38/Scripts:$PATH
+        - UHDM_INSTALL_PREFIX=install
+
     - os: linux
+      compiler: gcc
       addons:
         apt:
           sources:
@@ -23,23 +30,23 @@ matrix:
             - g++-7
             - cmake
             - build-essential
-            - tclsh
+            - python3
+            - python3-tk
 
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-
-
-before_install:
-  - eval "${MATRIX_EVAL}"
-
-install:
-  - export PATH=/usr/bin:$PATH
+        - CC=gcc-7
+        - CXX=g++-7
+        - PATH=/usr/bin:$PATH
+        - UHDM_INSTALL_PREFIX=install
 
 # Build steps
 script:
   - cmake --version
-  - make clean
-  - make
-  - make test
-  - sudo make install
-  - make test_install
+  - source buildcmds.sh
+  - uhdm_clean_release
+  - uhdm_build_release
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then uhdm_test_release_windows; fi;
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then uhdm_test_release_unix; fi;
+  - uhdm_uninstall_release
+  - uhdm_install_release
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then uhdm_test_install_release; fi;

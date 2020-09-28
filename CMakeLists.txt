@@ -25,6 +25,9 @@ project(UHDM)
 cmake_policy(SET CMP0091 NEW)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+message(STATUS "Python3_EXECUTABLE = ${Python3_EXECUTABLE}")
+
 set(BUILD_TESTING OFF CACHE BOOL "Don't build capnproto tests")
 add_subdirectory(third_party/capnproto EXCLUDE_FROM_ALL)
 
@@ -96,10 +99,12 @@ endforeach(header_file ${model-GENERATED_SRC})
 add_custom_target(GenerateCode DEPENDS ${model-GENERATED_SRC})
 add_custom_command(
   OUTPUT ${model-GENERATED_SRC}
-  COMMAND tclsh ${PROJECT_SOURCE_DIR}/model_gen/model_gen.tcl
-          ${PROJECT_SOURCE_DIR}/model/models.lst ${CMAKE_CURRENT_BINARY_DIR}
+  COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/model_gen/tcl_wrapper.py
+          ${PROJECT_SOURCE_DIR}/model_gen/model_gen.tcl ${PROJECT_SOURCE_DIR}/model/models.lst
+          ${CMAKE_CURRENT_BINARY_DIR}
   WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-  DEPENDS ${PROJECT_SOURCE_DIR}/model_gen/model_gen.tcl
+  DEPENDS ${PROJECT_SOURCE_DIR}/model_gen/tcl_wrapper.py
+          ${PROJECT_SOURCE_DIR}/model_gen/model_gen.tcl
           ${PROJECT_SOURCE_DIR}/model_gen/generate_elaborator.tcl
           ${PROJECT_SOURCE_DIR}/model_gen/parse_model.tcl
           ${PROJECT_SOURCE_DIR}/model/models.lst
@@ -172,7 +177,7 @@ if(APPLE)
       PUBLIC util
       PUBLIC m
       PUBLIC pthread)
-else(UNIX)
+elseif(UNIX)
   target_link_libraries(uhdm
       PUBLIC dl
       PUBLIC util
