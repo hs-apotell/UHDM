@@ -21,8 +21,6 @@ matrix:
             - cmake
             - build-essential
             - tclsh
-            - python3
-            - python3-tk
 
       env:
         - PATH=/usr/bin:$PATH

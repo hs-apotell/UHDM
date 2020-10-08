@@ -96,12 +96,10 @@ endforeach(header_file ${model-GENERATED_SRC})
 add_custom_target(GenerateCode DEPENDS ${model-GENERATED_SRC})
 add_custom_command(
   OUTPUT ${model-GENERATED_SRC}
-  COMMAND python3 ${PROJECT_SOURCE_DIR}/model_gen/tcl_wrapper.py
-          ${PROJECT_SOURCE_DIR}/model_gen/model_gen.tcl ${PROJECT_SOURCE_DIR}/model/models.lst
-          ${CMAKE_CURRENT_BINARY_DIR}
+  COMMAND tclsh ${PROJECT_SOURCE_DIR}/model_gen/model_gen.tcl
+          ${PROJECT_SOURCE_DIR}/model/models.lst ${CMAKE_CURRENT_BINARY_DIR}
   WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-  DEPENDS ${PROJECT_SOURCE_DIR}/model_gen/tcl_wrapper.py
-          ${PROJECT_SOURCE_DIR}/model_gen/model_gen.tcl
+  DEPENDS ${PROJECT_SOURCE_DIR}/model_gen/model_gen.tcl
           ${PROJECT_SOURCE_DIR}/model_gen/generate_elaborator.tcl
           ${PROJECT_SOURCE_DIR}/model_gen/parse_model.tcl
           ${PROJECT_SOURCE_DIR}/model/models.lst

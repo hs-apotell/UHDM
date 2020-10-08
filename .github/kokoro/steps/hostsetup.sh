@@ -41,7 +41,6 @@ sudo apt-get install -y \
         pkg-config \
         python3 \
         python3-dev \
-        python3-tk \
         swig \
         tclsh \
         uuid-dev \
