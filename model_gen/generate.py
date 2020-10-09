@@ -36,6 +36,9 @@ def _main():
     file_utils.copy_file_if_changed(config.get_template_filepath('SymbolFactory.h'), config.get_header_filepath('SymbolFactory.h'))
     file_utils.copy_file_if_changed(config.get_template_filepath('SymbolFactory.cpp'), config.get_source_filepath('SymbolFactory.cpp'))
 
+    # vpi_uhdm.h
+    file_utils.copy_file_if_changed(config.get_template_filepath('vpi_uhdm.h'), config.get_header_filepath('vpi_uhdm.h'))
+
     return 0
 
 

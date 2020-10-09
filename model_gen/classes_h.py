@@ -200,7 +200,7 @@ def _generate_one_class(model, models, templates):
         methods.extend(_print_methods(classname, 'unsigned int', 'uhdmParentType', '1'))
         members.extend(_print_members('unsigned int', 'uhdmParentType', '1'))
 
-        methods.extend(_print_methods(classname,'string','vpiFile', '1'))
+        methods.extend(_print_methods(classname, 'string','vpiFile', '1'))
         members.extend(_print_members('string', 'vpiFile', '1'))
 
         methods.extend(_print_methods(classname, 'unsigned int', 'uhdmId', '1'))

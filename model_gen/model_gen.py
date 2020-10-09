@@ -1163,7 +1163,7 @@ def _generate_code(modeldefs, uhdm_types):
             methods[classname].extend(_print_method_declarations(classname, 'unsigned int', 'uhdmParentType', '1'))
             members[classname].extend(_print_members('unsigned int', 'uhdmParentType', '1'))
 
-            methods[classname].extend(_print_method_declarations(classname,'string','vpiFile', '1'))
+            methods[classname].extend(_print_method_declarations(classname, 'string','vpiFile', '1'))
             members[classname].extend(_print_members('string', 'vpiFile', '1'))
             vpi_get_str_body_inst[classname].extend(f'{classname} string vpiFile 1')
 
