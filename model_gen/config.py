@@ -41,6 +41,22 @@ def set_cwd(dirpath):
         os.mkdir(sources_dirpath)
 
 
+def get_cwd():
+    return _cwd
+
+
+def get_template_dirpath():
+    return os.path.join(_cwd, _template_dirname)
+
+
+def get_header_dirpath():
+    return os.path.join(_cwd, _headers_dirname)
+
+
+def get_source_dirpath():
+    return os.path.join(_cwd, _sources_dirname)
+
+
 def get_template_filepath(filename):
     return os.path.join(_cwd, _template_dirname, filename)
 

@@ -58,10 +58,15 @@ def copy_file_if_changed(source, dest):
     return True
 
 
-def find_file(baseDir, filename):
-    for subdir, dirs, filenames in os.walk(baseDir):
-        for fname in filenames:
-            if filename == fname:
-                return os.path.join(subdir, fname)
+def find_file(basedir, filename):
+    for subdir, dirs, filenames in os.walk(basedir):
+        if filename in filenames:
+            return os.path.join(subdir, filename)
 
     return None
+
+def remove_file_safely(filepath):
+    if os.path.isfile(filepath):
+        os.remove(filepath)
+        return True
+    return False
