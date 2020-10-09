@@ -1,5 +1,6 @@
 #!/usr/bin/tclsh
 # -*- mode: python; c-basic-offset: 4; indent-tabs-mode: 4; -*-
+# Copyright 2019-2020 Alain Dargelas
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,155 +33,155 @@ DEFINE_ID = dict()
 DEFINE_NAME = dict()
 
 SHORT_VISITOR_LIST = {
-    "class_obj",
-    "assertion",
-    "immediate_assert",
-    "tchk_term",
-    "primitive",
-    "clocked_property",
-    "enum_const",
-    "attribute",
-    "task_call",
-    "parameter",
-    "program_array",
-    "chandle_var",
-    "return_stmt",
-    "switch_array",
-    "cont_assign",
-    "while_stmt",
-    "property_typespec",
-    "fork_stmt",
-    "repeat",
-    "assert_stmt",
-    "logic_typespec",
-    "property_inst",
-    "gen_var",
-    "bit_typespec",
-    "packed_array_net",
-    "byte_var",
-    "break_stmt",
-    "sys_func_call",
-    "typespec",
-    "modport",
-    "enum_var",
-    "event_typespec",
-    "named_event",
-    "int_typespec",
-    "forever_stmt",
-    "interface_tf_decl",
-    "final_stmt",
-    "repeat_control",
-    "packed_array_typespec",
-    "port_bit",
-    "short_real_var",
-    "let_decl",
-    "immediate_assume",
-    "union_typespec",
-    "param_assign",
-    "integer_var",
-    "method_func_call",
-    "user_systf",
-    "prim_term",
-    "string_var",
-    "property_spec",
-    "delay_control",
-    "expect_stmt",
-    "operation",
-    "class_typespec",
-    "short_int_var",
-    "event_control",
-    "case_item",
-    "gen_scope",
-    "path_term",
-    "property_decl",
-    "assign_stmt",
-    "tf_call",
-    "sequence_typespec",
-    "net_bit",
-    "udp_defn",
-    "short_int_typespec",
-    "function",
-    "sequence_inst",
-    "delay_term",
-    "named_fork",
-    "time_var",
-    "byte_typespec",
-    "ports",
-    "distribution",
-    "initial",
-    "string_typespec",
-    "int_var",
-    "do_while",
-    "case_stmt",
-    "sys_task_call",
-    "package",
-    "mod_path",
-    "real_var",
-    "atomic_stmt",
-    "if_stmt",
-    "virtual_interface_var",
-    "if_else",
-    "foreach_stmt",
-    "alias_stmt",
-    "release",
-    "type_parameter",
-    "class_defn",
-    "null_stmt",
-    "time_typespec",
-    "enum_net",
-    "module_array",
-    "continue_stmt",
-    "method_task_call",
-    "task_func",
-    "packed_array_var",
-    "for_stmt",
-    "func_call",
-    "def_param",
-    "array_var",
-    "force",
-    "scope",
-    "typespecs",
-    "sequence_decl",
-    "named_begin",
-    "spec_param",
-    "instance_array",
-    "integer_net",
-    "reg_array",
-    "constraint",
-    "interface_typespec",
-    "begin",
-    "void_typespec",
-    "cont_assign_bit",
-    "class_var",
-    "deassign",
-    "udp_array",
-    "gate_array",
-    "unsupported_expr",
-    "real_typespec",
-    "program",
-    "unsupported_stmt",
-    "union_var",
-    "always",
-    "gen_scope_array",
-    "integer_typespec",
-    "tchk",
-    "long_int_var",
-    "array_typespec",
-    "task",
-    "named_event_array",
-    "clocking_block",
-    "time_net",
-    "multiclock_sequence_expr",
-    "concurrent_assertions",
-    "immediate_cover",
-    "long_int_typespec",
-    "short_real_typespec",
-    "primitive_array",
-    "interface_array",
-    "io_decl",
-    "var_bit",
-    "bit_var",
-    "design"
+    'class_obj',
+    'assertion',
+    'immediate_assert',
+    'tchk_term',
+    'primitive',
+    'clocked_property',
+    'enum_const',
+    'attribute',
+    'task_call',
+    'parameter',
+    'program_array',
+    'chandle_var',
+    'return_stmt',
+    'switch_array',
+    'cont_assign',
+    'while_stmt',
+    'property_typespec',
+    'fork_stmt',
+    'repeat',
+    'assert_stmt',
+    'logic_typespec',
+    'property_inst',
+    'gen_var',
+    'bit_typespec',
+    'packed_array_net',
+    'byte_var',
+    'break_stmt',
+    'sys_func_call',
+    'typespec',
+    'modport',
+    'enum_var',
+    'event_typespec',
+    'named_event',
+    'int_typespec',
+    'forever_stmt',
+    'interface_tf_decl',
+    'final_stmt',
+    'repeat_control',
+    'packed_array_typespec',
+    'port_bit',
+    'short_real_var',
+    'let_decl',
+    'immediate_assume',
+    'union_typespec',
+    'param_assign',
+    'integer_var',
+    'method_func_call',
+    'user_systf',
+    'prim_term',
+    'string_var',
+    'property_spec',
+    'delay_control',
+    'expect_stmt',
+    'operation',
+    'class_typespec',
+    'short_int_var',
+    'event_control',
+    'case_item',
+    'gen_scope',
+    'path_term',
+    'property_decl',
+    'assign_stmt',
+    'tf_call',
+    'sequence_typespec',
+    'net_bit',
+    'udp_defn',
+    'short_int_typespec',
+    'function',
+    'sequence_inst',
+    'delay_term',
+    'named_fork',
+    'time_var',
+    'byte_typespec',
+    'ports',
+    'distribution',
+    'initial',
+    'string_typespec',
+    'int_var',
+    'do_while',
+    'case_stmt',
+    'sys_task_call',
+    'package',
+    'mod_path',
+    'real_var',
+    'atomic_stmt',
+    'if_stmt',
+    'virtual_interface_var',
+    'if_else',
+    'foreach_stmt',
+    'alias_stmt',
+    'release',
+    'type_parameter',
+    'class_defn',
+    'null_stmt',
+    'time_typespec',
+    'enum_net',
+    'module_array',
+    'continue_stmt',
+    'method_task_call',
+    'task_func',
+    'packed_array_var',
+    'for_stmt',
+    'func_call',
+    'def_param',
+    'array_var',
+    'force',
+    'scope',
+    'typespecs',
+    'sequence_decl',
+    'named_begin',
+    'spec_param',
+    'instance_array',
+    'integer_net',
+    'reg_array',
+    'constraint',
+    'interface_typespec',
+    'begin',
+    'void_typespec',
+    'cont_assign_bit',
+    'class_var',
+    'deassign',
+    'udp_array',
+    'gate_array',
+    'unsupported_expr',
+    'real_typespec',
+    'program',
+    'unsupported_stmt',
+    'union_var',
+    'always',
+    'gen_scope_array',
+    'integer_typespec',
+    'tchk',
+    'long_int_var',
+    'array_typespec',
+    'task',
+    'named_event_array',
+    'clocking_block',
+    'time_net',
+    'multiclock_sequence_expr',
+    'concurrent_assertions',
+    'immediate_cover',
+    'long_int_typespec',
+    'short_real_typespec',
+    'primitive_array',
+    'interface_array',
+    'io_decl',
+    'var_bit',
+    'bit_var',
+    'design'
 }
 
 def log(arg):
@@ -190,16 +191,20 @@ def log(arg):
 
 def lognnl(arg):
     if DEBUG == 1:
-        print(arg, end="")
+        print(arg, end='')
 
 
-def _format_headers(class_names):
-    return '\n'.join([ f'#include "headers/{class_name}.h"' for class_name in class_names ])
+def _classnames(modeldefs):
+  return [ model['name'] for model in modeldefs.values() if model['type'] != 'group_def' ]
+
+
+def _format_headers(modeldefs):
+    return '\n'.join([ f'#include "headers/{class_name}.h"' for class_name in _classnames(modeldefs) ])
 
 
 def _parse_vpi_user_defines():
     dirpath = os.path.join(_cwd, 'include', 'vpi_user.h')
-    with open(dirpath, "r") as fid:
+    with open(dirpath, 'r+t') as fid:
         for line in fid:
             # Most defines are followed by comment on the same line and so the pattern
             # cannot terminate at EOL.
@@ -299,11 +304,11 @@ def _parse_modeldefs(modeldef_list_filepath):
                         elif type in ['type', 'card', 'vpi', 'vpi_obj', 'name']:
                             current_def[type] = name
 
-                            if type == 'card':
-                                id, define = _define_type(current_def.get('name'), current_def.get('vpi'), False)
-                                current_def['id'] = id
-                                if define:
-                                    uhdm_types[define] = None
+#                            if type == 'card':
+#                                id, define = _define_type(current_def.get('name'), current_def.get('vpi'), False)
+#                                current_def['id'] = id
+#                                if define:
+#                                    uhdm_types[define] = None
 
                         else:
                             print(f'Unknown type {type}')
@@ -317,7 +322,7 @@ def _parse_modeldefs(modeldef_list_filepath):
     return modeldefs, uhdm_types
 
 
-def _print_method_declarations(classname, type, vpi, card, real_type=""):
+def _print_method_declarations(classname, type, vpi, card, real_type=''):
     content = []
     if type in ['string', 'value', 'delay']:
         type = 'std::string'
@@ -362,7 +367,7 @@ def _print_method_declarations(classname, type, vpi, card, real_type=""):
     return content
 
 
-def _print_method_definitions(classname, type, vpi, card, real_type=""):
+def _print_method_definitions(classname, type, vpi, card, real_type=''):
     content = []
     if type in ['string', 'value', 'delay']:
         type = 'std::string'
@@ -542,7 +547,7 @@ def _print_get_value_body(classname, type, vpi, card):
 
 def _print_get_delay_body(classname, type, vpi, card):
     content = []
-    if (card == '1') and (type == "delay"):
+    if (card == '1') and (type == 'delay'):
         content.append(f'  if (handle->type == uhdm{classname}) {{')
         content.append(f'    const s_vpi_delay* v = String2VpiDelays((({classname}*)(obj))->VpiDelay());')
         content.append( '    if (v) {')
@@ -582,7 +587,7 @@ def _print_get_str_visitor(classname, type, vpi, card):
 
 def _print_get_visitor(classname, type, vpi, card):
     content = []
-    if vpi == "vpiValue":
+    if vpi == 'vpiValue':
         content.append('    s_vpi_value value;')
         content.append('    vpi_get_value(obj_h, &value);')
         content.append('    if (value.format) {')
@@ -591,16 +596,16 @@ def _print_get_visitor(classname, type, vpi, card):
         content.append('            stream_indent(out, indent) << val;')
         content.append('        }')
         content.append('    }')
-    elif vpi == "vpiDelay":
+    elif vpi == 'vpiDelay':
         content.append('    s_vpi_delay delay;')
         content.append('    vpi_get_delays(obj_h, &delay);')
         content.append('    if (delay.da != nullptr) {')
         content.append('        stream_indent(out, indent) << visit_delays(&delay);')
         content.append('    }}')
-    elif (card == '1') and (type != "string") and (vpi != "vpiLineNo") and (vpi != "vpiType"):
+    elif (card == '1') and (type != 'string') and (vpi != 'vpiLineNo') and (vpi != 'vpiType'):
         content.append(f'    if (const int n = vpi_get({vpi}, obj_h))')
         content.append( '        if (n != -1)')
-        content.append(f'            stream_indent(out, indent) << \"|{vpi}:\" << n << std::endl;')
+        content.append(f'            stream_indent(out, indent) << "|{vpi}:" << n << std::endl;')
     return content
 
 
@@ -625,39 +630,42 @@ def _print_get_str_body(classname, type, vpi, card):
 
 
 def _print_vpi_listener(classname, vpi, type, card):
-    header = []
-    any_listener = []
+    if classname == 'ref_obj':
+        abc = 0
+
     listener = []
+    any_listener = []
 
     Classname_ = classname[:1].upper() + classname[1:]
     if card == '0':
-        header.append(f'void listen_{classname}(vpiHandle object, UHDM::VpiListener* listener);')
-
-        any_listener.append(f'  case uhdm{classname}:')
-        any_listener.append(f'    listen_{classname}(object, listener);')
-        any_listener.append( '    break;')
-
+        if classname == 'ref_obj':
+            abc = 0
         listener.append(f'void UHDM::listen_{classname}(vpiHandle object, VpiListener* listener) {{')
         listener.append(f'  {classname}* d = ({classname}*) ((const uhdm_handle*)object)->object;')
         listener.append( '  const BaseClass* parent = d->VpiParent();')
         listener.append( '  vpiHandle parent_h = parent ? NewVpiHandle(parent) : 0;')
         listener.append(f'  listener->enter{Classname_}(d, parent, object, parent_h);')
-        return (header, any_listener, listener)
+        listener.append( '  vpiHandle itr;')
 
-    if vpi in ['vpiParent', 'vpiInstance']:
-        return  # To prevent infinite loops in visitors as these 2 relations are pointing upward in the tree
+        any_listener.append(f'  case uhdm{classname}:')
+        any_listener.append(f'    listen_{classname}(object, listener);')
+        any_listener.append( '    break;')
 
-    if (vpi in ['vpiModule', 'vpiInterface']) and (card == '1'):
-        return  # upward vpiModule, vpiInterface relation (when card == 1, pointing to the parent object) creates loops in visitors
+        return (listener, any_listener)
 
-    listener.append('  vpiHandle itr;')
+    elif vpi in ['vpiParent', 'vpiInstance']:
+        return ([], []) # To prevent infinite loops in visitors as these 2 relations are pointing upward in the tree
 
-    if card == '1':
+    elif (vpi in ['vpiModule', 'vpiInterface']) and (card == '1'):
+        return ([], []) # upward vpiModule, vpiInterface relation (when card == 1, pointing to the parent object) creates loops in visitors
+
+    elif card == '1':
         listener.append(f'  itr = vpi_handle({vpi}, object);')
-        listener.append( '    if (itr) {')
-        listener.append(f'      listen_{type}(itr, listener);')
-        listener.append( '      vpi_free_object(itr);')
-        listener.append( '    }')
+        listener.append( '  if (itr) {')
+        listener.append(f'    listen_{type}(itr, listener);')
+        listener.append( '    vpi_free_object(itr);')
+        listener.append( '  }')
+
     else:
         listener.append(f'  itr = vpi_iterate({vpi}, object);')
         listener.append( '  if (itr) {')
@@ -668,21 +676,23 @@ def _print_vpi_listener(classname, vpi, type, card):
         listener.append( '    vpi_free_object(itr);')
         listener.append( '  }')
 
-    return (header, any_listener, listener)
+    return (listener, any_listener)
 
 
 def _close_vpi_listener(classname):
     Classname_ = classname[:1].upper() + classname[1:]
     return [
-        f'listener->leave{Classname_}(d, parent, object, parent_h);',
-         'vpi_release_handle(parent_h);',
-         '}'
+         '',
+        f'  listener->leave{Classname_}(d, parent, object, parent_h);',
+         '  vpi_release_handle(parent_h);',
+         '}',
+         ''
     ]
 
 
 def _print_vpi_visitor(classname, vpi, card):
     content = []
-    if (vpi == "vpiParent") and (classname != "part_select"):
+    if (vpi == 'vpiParent') and (classname != 'part_select'):
         return content
 
     content.append('  vpiHandle itr;')
@@ -697,7 +707,7 @@ def _print_vpi_visitor(classname, vpi, card):
         if classname == 'design':
             content.append('  if (indent == 0) visited->clear();')
         # Prevent loop in Standard VPI
-        if vpi != "vpiUse":
+        if vpi != 'vpiUse':
             content.append(f'  itr = vpi_iterate({vpi}, obj_h);')
             content.append( '  while (vpiHandle obj = vpi_scan(itr)) {')
             content.append(f'    visit_object(obj, subobject_indent, "{vpi}", visited, out);')
@@ -799,9 +809,9 @@ def _generate_group_checker(model, modeldefs):
 
       prefix = ' ' * 6
       checktype = ' &&\n'.join([ prefix + ct for ct in sorted(checktype) ])
-      template = template.replace("<GROUPNAME>", groupname)
-      template = template.replace("<UPPER_GROUPNAME>", groupname.upper())
-      template = template.replace("<CHECKTYPE>", checktype)
+      template = template.replace('<GROUPNAME>', groupname)
+      template = template.replace('<UPPER_GROUPNAME>', groupname.upper())
+      template = template.replace('<CHECKTYPE>', checktype)
       file_utils.set_content_if_changed(output, template)
 
 
@@ -810,35 +820,41 @@ def _write_vpi_listener_cpp(listeners, any_listeners):
     with open(template_filepath, 'r+t') as fid:
         content = fid.read()
 
-    vpi_listeners = '\n'.join([listener for _, class_listener in listeners.items() for listener in class_listener])
-    vpi_any_listeners = '\n'.join([listener for _, class_listener in any_listeners.items() for listener in class_listener])
+    vpi_listeners = '\n'.join(listeners)
+    vpi_any_listeners = '\n'.join(any_listeners)
 
-    content = content.replace("<VPI_LISTENERS>", vpi_listeners)
-    content = content.replace("<VPI_ANY_LISTENERS>", vpi_any_listeners)
+    content = content.replace('<VPI_LISTENERS>', vpi_listeners)
+    content = content.replace('<VPI_ANY_LISTENERS>', vpi_any_listeners)
 
     generated_filepath = os.path.join(_cwd, 'src', 'vpi_listener.cpp')
     return file_utils.set_content_if_changed(generated_filepath, content)
 
 
-def _write_vpi_listener_h(header):
+def _write_vpi_listener_h(modeldefs):
+    methods = []
+    for model in modeldefs.values():
+        if model['type'] != 'group_def':
+            classname = model['name']
+            methods.append(f'void listen_{classname}(vpiHandle object, UHDM::VpiListener* listener);')
+
     template_filepath = os.path.join(_cwd, 'templates', 'vpi_listener.h')
     with open(template_filepath, 'r+t') as fid:
         content = fid.read()
 
-    vpi_listeners_header = '\n'.join([listener for _, class_listener in header.items() for listener in class_listener])
-    content = content.replace("<VPI_LISTENERS_HEADER>", vpi_listeners_header)
+    content = content.replace('<VPI_LISTENERS_HEADER>', '\n'.join(methods))
 
     generated_filepath = os.path.join(_cwd, 'headers', 'vpi_listener.h')
     return file_utils.set_content_if_changed(generated_filepath, content)
 
 
-def _write_uhdm_forward_decl(classnames):
+def _write_uhdm_forward_decl(modeldefs):
     template_filepath = os.path.join(_cwd, 'templates', 'uhdm_forward_decl.h')
     with open(template_filepath, 'r+t') as fid:
         content = fid.read()
 
+    classnames = [ model['name'] for model in modeldefs.values() if model['type'] != 'group_def' ]
     uhdm_forward_decl = '\n'.join([f'class {classname};' for classname in classnames])
-    content = content.replace("<UHDM_FORWARD_DECL>", uhdm_forward_decl)
+    content = content.replace('<UHDM_FORWARD_DECL>', uhdm_forward_decl)
 
     generated_filepath = os.path.join(_cwd, 'headers', 'uhdm_forward_decl.h')
     return file_utils.set_content_if_changed(generated_filepath, content)
@@ -858,7 +874,7 @@ def _write_VpiListener_h(modeldefs):
     with open(template_filepath, 'r+t') as fid:
         content = fid.read()
 
-    content = content.replace("<VPI_LISTENER_METHODS>", '\n'.join(methods))
+    content = content.replace('<VPI_LISTENER_METHODS>', '\n'.join(methods))
 
     generated_filepath = os.path.join(_cwd, 'headers', 'VpiListener.h')
     return file_utils.set_content_if_changed(generated_filepath, content)
@@ -870,25 +886,25 @@ def _write_vpi_visitor_cpp():
 #    for item in SHORT_VISITOR_LIST:
 #        filter[item] = 1
 #
-#    with open(f"{project_path()}/templates/vpi_visitor.cpp", "r") as fid:
+#    with open(f'{project_path()}/templates/vpi_visitor.cpp', 'r') as fid:
 #        visitor_cpp = fid.read()
-#    vpi_visitor = ""
+#    vpi_visitor = ''
 #    for classname in VISITOR:
 #        if (classname in filter):
 #            pass
-#        vpiName = f"makeVpiName {classname}"
-#        relations = ""
+#        vpiName = f'makeVpiName {classname}'
+#        relations = ''
 #        if classname in visitor_relations:
 #            relations = visitor_relations[classname]
 #
-#        vpi_visitor = f"""  if (objectType == {vpiName}) {{
+#        vpi_visitor = f'''  if (objectType == {vpiName}) {{
 #            {VISITOR}({classname})
 #            {relations}
 #                return;
 #                }}
-#            """
-#    visitor_cpp = visitor_cpp.replace("<OBJECT_VISITORS>", vpi_visitor)
-#    set_content_if_change(f"{project_path()}/src/vpi_visitor.cpp", visitor_cpp)
+#            '''
+#    visitor_cpp = visitor_cpp.replace('<OBJECT_VISITORS>', vpi_visitor)
+#    set_content_if_change(f'{project_path()}/src/vpi_visitor.cpp', visitor_cpp)
 #    #todo figureout the error.
 
 
@@ -897,19 +913,19 @@ def _write_capnp(capnp_schema_all, capnp_root_schema):
     with open(template_filepath, 'r+t') as fid:
         capnp_content = fid.read()
 
-    capnp_content = capnp_content.replace("<CAPNP_SCHEMA>", capnp_schema_all)
-    capnp_content = capnp_content.replace("<CAPNP_ROOT_SCHEMA>", capnp_root_schema)
+    capnp_content = capnp_content.replace('<CAPNP_SCHEMA>', capnp_schema_all)
+    capnp_content = capnp_content.replace('<CAPNP_ROOT_SCHEMA>', capnp_root_schema)
 
     generated_filepath = os.path.join(_cwd, 'src', 'UHDM.capnp')
     return file_utils.set_content_if_changed(generated_filepath, capnp_content)
 
 
-def _write_uhdm_h(class_names):
+def _write_uhdm_h(modeldefs):
     template_filepath = os.path.join(_cwd, 'templates', 'uhdm.h')
-    with open(template_filepath, "r+t") as fid:
+    with open(template_filepath, 'r+t') as fid:
         content = fid.read()
 
-    content = content.replace("<INCLUDE_FILES>", _format_headers(class_names))
+    content = content.replace('<INCLUDE_FILES>', _format_headers(modeldefs))
 
     generated_filepath = os.path.join(_cwd, 'headers', 'uhdm.h')
     return file_utils.set_content_if_changed(generated_filepath, content)
@@ -920,7 +936,7 @@ def _write_uhdm_types_h(uhdm_types):
     with open(template_filepath, 'r+t') as fid:
         content = fid.read()
 
-    content = content.replace("<DEFINES>", '\n'.join(['  ' + t for t in uhdm_types.keys()]))
+    content = content.replace('<DEFINES>', '\n'.join(['  ' + t for t in uhdm_types.keys()]))
 
     generated_filepath = os.path.join(_cwd, 'headers', 'uhdm_types.h')
     return file_utils.set_content_if_changed(generated_filepath, content)
@@ -940,7 +956,7 @@ def _write_containers_h(containers):
                 lines.append(f'  class {type};')
             lines.append(f'  typedef std::vector<{type}*> VectorOf{type};')
             lines.append(f'  typedef std::vector<{type}*>::iterator VectorOf{type}Itr;')
-    content = content.replace("<CONTAINERS>", '\n'.join(lines))
+    content = content.replace('<CONTAINERS>', '\n'.join(lines))
 
     generated_filepath = os.path.join(_cwd, 'headers', 'containers.h')
     return file_utils.set_content_if_changed(generated_filepath, content)
@@ -959,123 +975,113 @@ def _update_vpi_inst(baseclass, classname, lvl):
 #        for inst in vpi_get_str_body_inst_l[baseclass]:
 #            pass
 #            #todo figure out the below code and convert it into python.
-#            # vpi_get_str_body_l += f"[printGetStrBody $classname [lindex $inst 1] [lindex $inst 2] [lindex $inst 3]]"
-#            # VISITOR($classname) += f"[printGetStrVisitor $classname [lindex $inst 1] [lindex $inst 2] [lindex $inst 3]]"
+#            # vpi_get_str_body_l += f'[printGetStrBody $classname [lindex $inst 1] [lindex $inst 2] [lindex $inst 3]]'
+#            # VISITOR($classname) += f'[printGetStrVisitor $classname [lindex $inst 1] [lindex $inst 2] [lindex $inst 3]]'
 #
 #    if (baseclass in vpi_get_body_inst_l):
-#        vpi_case_body = ""
+#        vpi_case_body = ''
 #        for inst in vpi_get_body_inst_l[baseclass]:
 #            pass
 #            #todo figure out the below code and convert it into python.
-#            # vpi_case_body += f"[printGetBody $classname [lindex $inst 1] [lindex $inst 2] [lindex $inst 3]]"
+#            # vpi_case_body += f'[printGetBody $classname [lindex $inst 1] [lindex $inst 2] [lindex $inst 3]]'
 #
 #
 #        # The case body can be empty if all propeerties have been handled
 #        # in the base class. So only if non-empty, add the if/switch
-#        if (vpi_case_body != ""):
-#            vpi_get_body_l += f"[printGetBodyPrefix $classname] $vpi_case_body [printGetBodySuffix]"
+#        if (vpi_case_body != ''):
+#            vpi_get_body_l += f'[printGetBodyPrefix $classname] $vpi_case_body [printGetBodySuffix]'
 #
 #        for inst in vpi_get_body_inst_l[baseclass]:
 #            pass
 #            #todo figure out the below code and convert it into python.
-#            # vpi_get_value_body_l += f"[printGetValueBody $classname [lindex $inst 1] [lindex $inst 2] [lindex $inst 3]]"
-#            # vpi_get_delay_body_l += f"[printGetDelayBody $classname [lindex $inst 1] [lindex $inst 2] [lindex $inst 3]]"
-#            # VISITOR[classname] += f"[printGetVisitor $classname [lindex $inst 1] [lindex $inst 2] [lindex $inst 3]]"
+#            # vpi_get_value_body_l += f'[printGetValueBody $classname [lindex $inst 1] [lindex $inst 2] [lindex $inst 3]]'
+#            # vpi_get_delay_body_l += f'[printGetDelayBody $classname [lindex $inst 1] [lindex $inst 2] [lindex $inst 3]]'
+#            # VISITOR[classname] += f'[printGetVisitor $classname [lindex $inst 1] [lindex $inst 2] [lindex $inst 3]]'
+
+SAVE = {}
+RESTORE = {}
+
+vpi_iterator = {}
+vpi_iterate_body = {}
+vpi_iterate_body_all = []
+
+vpi_handle_body = {}
+vpi_handle_body_all = []
+
+vpi_handle_by_name_body = {}
+vpi_handle_by_name_body_all = []
+
+capnp_schema = {}
+capnp_schema_all = []
 
 
-def _process_baseclass(baseclass, classname, modeltype, capnpIndex):
-    pass
-#    global SAVE, RESTORE, BASECLASS, vpi_iterator, vpi_handle_body, vpi_iterate_body, vpi_handle_by_name_body
-#    #todo figureout the below upvar code and convert it into python.
-#    # upvar capnp_schema capnp_schema_l capnp_schema_all capnp_schema_all_l
-#    # upvar vpi_iterate_body_all vpi_iterate_body_all_l vpi_handle_body_all vpi_handle_body_all_l
-#    # upvar vpi_handle_by_name_body_all vpi_handle_by_name_body_all_l
-#    idx = capnpIndex
-#    Classname = classname[:1].upper() + classname[1:]
-#    Classname = Classname.replace("_", "")
-#
-#    while (baseclass != ""):
-#        # Capnp schema
-#        if (modeltype != "class_def"):
-#            for member in capnp_schema_l[baseclass]:
-#                for (name, type) in member:
-#                    capnp_schema_all_l += f"{name} @{idx} :{type};\n"
-#                    idx += 1
-#
-#        # Save
-#        save = ""
-#        #todo convert the below commented out code in python.
-#        for line in SAVE[baseclass].split('\n'):
-#            base = baseclass
-#            tmp = line
-#            base = baseclass.replace("_", "")
-#            tmp = line.replace(" [string toupper $base 0 0]s", f"{Classname}s")
-#
-#        SAVE[classname] += save
-#
-#        # Restore
-#        restore = RESTORE[baseclass]
-#        restore = RESTORE[baseclass].replace(f" {baseclass}Maker", f" {classname}Maker")
-#
-#        RESTORE[classname] += restore
-#
-#        # VPI
-#        update_vpi_inst(baseclass, classname, 2)
-#
-#        if (baseclass in vpi_iterate_body):
-#            vpi_iterate = vpi_iterate_body[baseclass]
-#            vpi_iterate = vpi_iterate.replace(f"= uhdm{baseclass}", f"= uhdm{classname}")
-#            vpi_iterate_body_all_l += vpi_iterate
-#
-#        if (baseclass in vpi_handle_body):
-#            vpi_handle = vpi_handle_body[baseclass]
-#            vpi_handle = vpi_handle.replace(f"= uhdm{baseclass}", f"= uhdm{classname}")
-#            vpi_handle = vpi_handle.replace(f"{baseclass}\\*", f"{classname}\*")
-#            vpi_handle_body_all_l += vpi_handle
-#
-#        if (baseclass in vpi_handle_by_name_body):
-#            vpi_handle_by_name = vpi_handle_by_name_body[baseclass]
-#            vpi_handle_by_name = vpi_handle_by_name.replace(f"= uhdm{baseclass}", f"= uhdm{classname}")
-#            vpi_handle_by_name_body_all_l += vpi_handle_by_name
-#
-#        if (baseclass in vpi_iterator):
-#            for (vpi, type, card) in vpi_iterator[baseclass]:
-#                _print_vpi_visitor(classname, vpi, card) 
-#                _print_vpi_listener(classname, vpi, type, card)
-#
-#        # Parent class
-#        if (baseclass in BASECLASS):
-#            baseclass = BASECLASS[baseclass]
-#        else:
-#            baseclass = ""
-#
-#    # return idx
+def _process_baseclass(modeldefs, baseclass, classname, modeltype, capnpIndex):
+    vpi_listeners = []
+    vpi_any_listeners = []
+    idx = capnpIndex
+    Classname = (classname[:1].upper() + classname[1:]).replace('_', '')
+
+    while baseclass:
+        Baseclass = (baseclass[:1].upper() + baseclass[1:]).replace('_', '')
+
+        # Capnp schema
+        if modeltype != 'class_def':
+            for name, type in capnp_schema[baseclass]:
+                capnp_schema_all.append(f'{name} @{idx} :{type};')
+                idx += 1
+
+        # Save
+        save = [ line.replace(f' {Baseclass}s', f' {Classname}s') for line in SAVE[baseclass] ]
+        SAVE[classname].extend(save)
+
+        # Restore
+        restore = [ line.replace(f' {baseclass}Maker', f' {classname}Maker') for line in RESTORE[baseclass] ]
+        RESTORE[classname].extend(restore)
+
+        # VPI
+        _update_vpi_inst(baseclass, classname, 2)
+
+        if baseclass in vpi_iterate_body:
+            vpi_iterate_body_all.extend([line.replace(f'= uhdm{baseclass}', f'= uhdm{classname}') for line in vpi_iterate_body[baseclass]])
+
+        if baseclass in vpi_handle_body:
+            vpi_handle_body_all.extend([
+              line.replace(f'= uhdm{baseclass}', f'= uhdm{classname}').replace(f'{baseclass}*', f'{classname}*')
+              for line in vpi_handle_body[baseclass]
+            ])
+
+        if baseclass in vpi_handle_by_name_body:
+            vpi_handle_by_name_body_all.extend([line.replace(f'= uhdm{baseclass}', f'= uhdm{classname}') for line in vpi_handle_by_name_body[baseclass]])
+
+        if baseclass in vpi_iterator:
+            for vpi, type, card in vpi_iterator[baseclass]:
+                _print_vpi_visitor(classname, vpi, card) 
+                listeners, any_listeners = _print_vpi_listener(classname, vpi, type, card)
+                vpi_listeners.extend(listeners)
+                vpi_any_listeners.extend(any_listeners)
+
+        # Parent class
+        baseclass = modeldefs[baseclass]['extends']
+
+    return idx, vpi_listeners, vpi_any_listeners
+
 
 def _generate_code(modeldefs, uhdm_types):
     with open(os.path.join(_cwd, 'templates', 'class_header.h'), 'r+t') as fid:
         template_content = fid.read()
     
-    class_names = []
     factories = []
     factories_methods = []
+    vpi_listeners = []
+    vpi_any_listeners = []
 
     methods = {}
     members = {}
-    SAVE = {}
-    RESTORE = {}
-    capnp_schema = {}
-    vpi_iterate_body = {}
-    vpi_iterator = {}
     vpi_get_str_body_inst = {}
-    vpi_handle_body = {}
     visitor_relations = {}
     vpi_get_body_inst = {}
-    vpi_handle_by_name_body = {}
 
-    vpi_iterate_body_all = []
-    vpi_handle_by_name_body_all = []
     vpi_scan_body = []
-    vpi_handle_body_all = []
     vpi_get_body = []
     vpi_get_value_body = []
     vpi_get_delay_body = []
@@ -1085,14 +1091,13 @@ def _generate_code(modeldefs, uhdm_types):
     capnp_save = []
     capnpRootSchemaIndex = 2
     factory_object_type_map = []
-    capnp_schema_all = []
     capnp_root_schema = []
 
     for model in modeldefs.values():
-        classname = model["name"]
-        modeltype = model["type"]
+        classname = model['name']
+        modeltype = model['type']
+        baseclass = model['extends']
         template = template_content
-        baseclass = ''
         methods[classname] = []
         members[classname] = []
         SAVE[classname] = []
@@ -1108,10 +1113,9 @@ def _generate_code(modeldefs, uhdm_types):
 
         Classname_ = classname[:1].upper() + classname[1:]
         Classname = Classname_.replace('_', '')
-        class_names.append(classname)
 
-        template = template.replace("<CLASSNAME>", classname)
-        template = template.replace("<UPPER_CLASSNAME>", classname.upper())
+        template = template.replace('<CLASSNAME>', classname)
+        template = template.replace('<UPPER_CLASSNAME>', classname.upper())
         if modeltype == 'class_def':
             template = template.replace('<FINAL_DESTRUCTOR>', '')
             template = template.replace('<VIRTUAL>', 'virtual ')
@@ -1125,7 +1129,7 @@ def _generate_code(modeldefs, uhdm_types):
             template = template.replace('<DISABLE_OBJECT_FACTORY>', '')
             template = template.replace('<END_DISABLE_OBJECT_FACTORY>', '')
 
-        id, define = _define_type(f"uhdm{classname}", None, True)
+        id, define = _define_type(f'uhdm{classname}', None, True)
         if define:
             uhdm_types[define] = None
 
@@ -1142,11 +1146,13 @@ def _generate_code(modeldefs, uhdm_types):
         factories.append(f'    VectorOf{classname}Factory {classname}VectMaker;')
         factories_methods.append(f'    std::vector<{classname}*>* Make{Classname_}Vec() {{ return {classname}VectMaker.Make();}}')
 
-        _print_vpi_listener(classname, classname, classname, '0')
+        listeners, any_listeners = _print_vpi_listener(classname, classname, classname, '0')
+        vpi_listeners.extend(listeners)
+        vpi_any_listeners.extend(any_listeners)
 
         if modeltype == 'class_def':
             # DeepClone() not implemented for class_def; just declare to narrow the covariant return type.
-            methods[classname].append(f'  {classname}* DeepClone(Serializer* serializer, ElaboratorListener* elab_listener, BaseClass* parent) const override = 0;')
+            methods[classname].append(f'    {classname}* DeepClone(Serializer* serializer, ElaboratorListener* elab_listener, BaseClass* parent) const override = 0;')
         else:
             # Builtin properties do not need to be specified in each models
             # Builtins: "vpiParent, Parent type, vpiFile, Id" method and field
@@ -1214,7 +1220,7 @@ def _generate_code(modeldefs, uhdm_types):
                     capnp_schema[classname].append(_print_capnp_schema(type, vpi, card))
 
                     Vpi_ = vpi[:1].upper() + vpi[1:]
-                    Vpi = Vpi_.replace("_", "")
+                    Vpi = Vpi_.replace('_', '')
 
                     if type in ['string', 'value', 'delay']:
                         if Vpi != 'VpiFullName':
@@ -1225,7 +1231,7 @@ def _generate_code(modeldefs, uhdm_types):
                         RESTORE[classname].append(f'    {classname}Maker.objects_[index]->{Vpi_}(obj.get{Vpi}());')
             
             elif key == 'extends' and value:
-                template = template.replace("<EXTENDS>", value)
+                template = template.replace('<EXTENDS>', value)
 
             elif key in ['class', 'obj_ref', 'class_ref', 'group_ref']:
                 for name, content in value.items():
@@ -1238,9 +1244,9 @@ def _generate_code(modeldefs, uhdm_types):
                     id   = content.get('id')
 
                     Type_ = type[:1].upper() + type[1:]
-                    Type = Type_.replace("_", "")
+                    Type = Type_.replace('_', '')
                     Name_ = name
-                    Name = name.replace("_", "")
+                    Name = name.replace('_', '')
 
                     if (card == 'any') and not name.endswith('s'):
                         name += 's'
@@ -1256,11 +1262,15 @@ def _generate_code(modeldefs, uhdm_types):
                         uhdm_types[define] = None
 
                     methods[classname].extend(_print_method_declarations(classname, type, name, card, real_type))
-                    _print_vpi_listener(classname, vpi, type, card)
+
+                    listeners, any_listeners = _print_vpi_listener(classname, vpi, type, card)
+                    vpi_listeners.extend(listeners)
+                    vpi_any_listeners.extend(any_listeners)
+
                     members[classname].extend(_print_members(type, name, card))
                     vpi_iterate_body[classname].extend(_print_iterate_body(name, classname, vpi, card))
                     vpi_handle_by_name_body[classname].extend(_print_get_handle_by_name_body(name, classname, vpi, card))
-                    vpi_iterator[classname].append(f'{vpi} {type} {card}')
+                    vpi_iterator[classname].append((vpi, type, card))
                     vpi_scan_body.extend(_print_scan_body(name, classname, type, card))
                     vpi_handle_body[classname].extend(_print_get_handle_body(classname, f'uhdm{type}', vpi, name, card))
 
@@ -1336,15 +1346,17 @@ def _generate_code(modeldefs, uhdm_types):
         vpi_handle_by_name_body_all.extend(vpi_handle_by_name_body[classname])
 
         # process baseclass recursively
-        capnpIndex = _process_baseclass(baseclass, classname, modeltype, capnpIndex)
+        capnpIndex, listeners, any_listeners = _process_baseclass(modeldefs, baseclass, classname, modeltype, capnpIndex)
+        vpi_listeners.extend(listeners)
+        vpi_any_listeners.extend(any_listeners)
 
         if modeltype != 'class_def':
             capnp_schema_all.append('}')
 
-        _close_vpi_listener(classname)
+        vpi_listeners.extend(_close_vpi_listener(classname))
 
     # uhdm.h
-    _write_uhdm_h(class_names)
+    _write_uhdm_h(modeldefs)
 
     # uhdm_types.h
     _write_uhdm_types_h(uhdm_types)
@@ -1356,7 +1368,7 @@ def _generate_code(modeldefs, uhdm_types):
     with open(os.path.join(_cwd, 'templates', 'vpi_user.cpp'), 'r+t') as fid:
         vpi_user = fid.read()
 
-    vpi_user = vpi_user.replace('<HEADERS>', _format_headers(class_names))
+    vpi_user = vpi_user.replace('<HEADERS>', _format_headers(modeldefs))
     vpi_user = vpi_user.replace('<VPI_HANDLE_BY_NAME_BODY>', '\n'.join(vpi_handle_by_name_body_all))
     vpi_user = vpi_user.replace('<VPI_ITERATE_BODY>', '\n'.join(vpi_iterate_body_all))
     vpi_user = vpi_user.replace('<VPI_SCAN_BODY>', '\n'.join(vpi_scan_body))
@@ -1368,17 +1380,17 @@ def _generate_code(modeldefs, uhdm_types):
     file_utils.set_content_if_changed(os.path.join(_cwd, 'src', 'vpi_user.cpp'), vpi_user)
 
     # UHDM.capnp
-#    if {[write_capnp $capnp_schema_all $capnp_root_schema] || ![file exists "[project_path]/src/UHDM.capnp.h"]} {
-#        log "Generating Capnp schema..."
+#    if {[_write_capnp $capnp_schema_all $capnp_root_schema] || ![file exists '[project_path]/src/UHDM.capnp.h']} {
+#        log 'Generating Capnp schema...'
 #        file delete -force [project_path]/src/UHDM.capnp.*
-#        set capnp_path [find_file $working_dir "capnpc-c++$exeext"]
-#        puts "capnp_path = $capnp_path"
+#        set capnp_path [find_file $working_dir 'capnpc-c++$exeext']
+#        puts 'capnp_path = $capnp_path'
 #        set capnp_path [file dirname $capnp_path]
 #
-#        if { $tcl_platform(platform) == "windows" } {
-#            exec -ignorestderr cmd /c "set PATH=$capnp_path;%PATH%; && cd /d [project_path]/src && $capnp_path/capnp.exe compile -oc++ UHDM.capnp"
+#        if { $tcl_platform(platform) == 'windows' } {
+#            exec -ignorestderr cmd /c 'set PATH=$capnp_path;%PATH%; && cd /d [project_path]/src && $capnp_path/capnp.exe compile -oc++ UHDM.capnp'
 #        } else {
-#            exec -ignorestderr sh -c "export PATH=$capnp_path; $capnp_path/capnp compile -oc++:. [project_path]/src/UHDM.capnp"
+#            exec -ignorestderr sh -c 'export PATH=$capnp_path; $capnp_path/capnp compile -oc++:. [project_path]/src/UHDM.capnp'
 #        }
 #    }
 
@@ -1468,13 +1480,13 @@ def _generate_code(modeldefs, uhdm_types):
     _write_VpiListener_h(modeldefs)
 
     # vpi_listener.h
-    _write_vpi_listener_h()
+    _write_vpi_listener_h(modeldefs)
 
     # vpi_listener.cpp
-#    _write_vpi_listener_cpp()
+    _write_vpi_listener_cpp(vpi_listeners, vpi_any_listeners)
 
     # uhdm_forward_decl.h
-    _write_uhdm_forward_decl(class_names)
+    _write_uhdm_forward_decl(modeldefs)
 
 
 def _main():
@@ -1483,15 +1495,15 @@ def _main():
     modeldef_list_filepath = r'D:\Projects\Davenche\UHDM\model\models.lst'
     _cwd = r'D:\Projects\Davenche\UHDM'
 
-    print("UHDM MODEL GENERATION")
-    print("Model definition filepath: {}".format(modeldef_list_filepath))
-    print("Working dir: {}".format(_cwd))
+    print('UHDM MODEL GENERATION')
+    print('Model definition filepath: {}'.format(modeldef_list_filepath))
+    print('Working dir: {}'.format(_cwd))
 
-    src_dir = os.path.join(_cwd, "src")
+    src_dir = os.path.join(_cwd, 'src')
     if not os.path.exists(src_dir):
         os.mkdir(src_dir)
 
-    headers_dir = os.path.join(_cwd, "headers")
+    headers_dir = os.path.join(_cwd, 'headers')
     if not os.path.exists(headers_dir):
         os.mkdir(headers_dir)
 
@@ -1503,7 +1515,7 @@ def _main():
 
     #generate_elaborator(models)
 
-    print("UHDM MODEL GENERATION DONE.")
+    print('UHDM MODEL GENERATION DONE.')
     return 0
 
 if __name__ == '__main__':
