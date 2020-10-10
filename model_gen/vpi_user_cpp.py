@@ -16,21 +16,21 @@ import config
 import file_utils
 
 
-VISITOR = {}
-VISITOR_RELATIONS = {}
 vpi_iterator = {}
 vpi_iterate_body = {}
-vpi_iterate_body_all = []
 vpi_get_str_body_inst = {}
 vpi_get_body_inst = {}
+vpi_handle_by_name_body = {}
+
 vpi_scan_body = []
 vpi_get_body = []
 vpi_get_value_body = []
 vpi_get_delay_body = []
 vpi_get_str_body = []
 vpi_handle_body = {}
+
+vpi_iterate_body_all = []
 vpi_handle_body_all = []
-vpi_handle_by_name_body = {}
 vpi_handle_by_name_body_all = []
 
 
@@ -42,33 +42,6 @@ def _format_headers(models):
     return '\n'.join([ f'#include "headers/{class_name}.h"' for class_name in _classnames(models) ])
 
 
-def _print_vpi_visitor(classname, vpi, card):
-    content = []
-    if (vpi == 'vpiParent') and (classname != 'part_select'):
-        return content
-
-    if card == '1':
-        # Prevent loop in Standard VPI
-        if (vpi != 'vpiModule') and (vpi != 'vpiInterface'):
-            content.append(f'    itr = vpi_handle({vpi},obj_h);')
-            content.append(f'    visit_object(itr, subobject_indent, "{vpi}", visited, out);')
-            content.append( '    release_handle(itr);')
-    else:
-        if classname == 'design':
-            content.append('  if (indent == 0) visited->clear();')
-        # Prevent loop in Standard VPI
-        if vpi != 'vpiUse':
-            content.append(f'    itr = vpi_iterate({vpi}, obj_h);')
-            content.append( '    while (vpiHandle obj = vpi_scan(itr)) {')
-            content.append(f'      visit_object(obj, subobject_indent, "{vpi}", visited, out);')
-            content.append( '      release_handle(obj);')
-            content.append( '    }')
-            content.append( '    release_handle(itr);')
-
-    VISITOR_RELATIONS[classname].extend(content)
-    return content
-
-
 def _print_iterate_body(name, classname, vpi, card):
     content = []
     if card == 'any':
@@ -78,7 +51,6 @@ def _print_iterate_body(name, classname, vpi, card):
         content.append(f'      return NewHandle(uhdm{name}, (({classname}*)(object))->{Name_}());')
         content.append( '    else return 0;')
         content.append( '  }')
-        _print_vpi_visitor(classname, vpi, card)
     return content
 
 
@@ -115,10 +87,10 @@ def _print_get_body_suffix():
 
 
 def _print_get_body(classname, type, vpi, card):
-    if vpi in ['vpiType', 'vpiLineNo']:  # These are already handled by base class
-        return []
-
     content = []
+    if vpi in ['vpiType', 'vpiLineNo']:  # These are already handled by base class
+        return content
+
     if (card == '1') and (type not in ['string', 'value', 'delay']):
         content.append(f'      case {vpi}: return ((const {classname}*)(obj))->{vpi[:1].upper() + vpi[1:]}();')
 
@@ -166,39 +138,6 @@ def _print_get_handle_body(classname, type, vpi, object, card):
         content.append(f'      return NewHandle({casted_object1}->{Object_}())->UhdmType(), {casted_object2}->{Object_}());')
         content.append( '    else return 0;')
         content.append( '  }')
-        _print_vpi_visitor(classname, vpi, card)
-    return content
-
-
-def _print_get_str_visitor(classname, type, vpi, card):
-    content = []
-    if (card == '1') and (type == 'string') and (vpi != 'vpiFile'):
-        content.append(f'    if (const char* s = vpi_get_str({vpi}, obj_h))')
-        content.append(f'        stream_indent(out, indent) << "|{vpi}:" << s << std::endl;')
-    return content
-
-
-def _print_get_visitor(classname, type, vpi, card):
-    content = []
-    if vpi == 'vpiValue':
-        content.append('    s_vpi_value value;')
-        content.append('    vpi_get_value(obj_h, &value);')
-        content.append('    if (value.format) {')
-        content.append('        std::string val = visit_value(&value);')
-        content.append('        if (!val.empty()) {')
-        content.append('            stream_indent(out, indent) << val;')
-        content.append('        }')
-        content.append('    }')
-    elif vpi == 'vpiDelay':
-        content.append('    s_vpi_delay delay;')
-        content.append('    vpi_get_delays(obj_h, &delay);')
-        content.append('    if (delay.da != nullptr) {')
-        content.append('        stream_indent(out, indent) << visit_delays(&delay);')
-        content.append('    }}')
-    elif (card == '1') and (type != 'string') and (vpi != 'vpiLineNo') and (vpi != 'vpiType'):
-        content.append(f'    if (const int n = vpi_get({vpi}, obj_h))')
-        content.append( '      if (n != -1)')
-        content.append(f'        stream_indent(out, indent) << "|{vpi}:" << n << std::endl;')
     return content
 
 
@@ -237,55 +176,46 @@ def _print_scan_body(name, classname, type, card):
 
 
 def _update_vpi_inst(baseclass, classname):
-    if baseclass in vpi_get_str_body_inst:
-        for _, type, vpi, card in vpi_get_str_body_inst[baseclass]:
-            vpi_get_str_body.extend(_print_get_str_body(classname, type, vpi, card))
-            VISITOR[classname].extend(_print_get_str_visitor(classname, type, vpi, card))
+    for type, vpi, card in vpi_get_str_body_inst[baseclass]:
+        vpi_get_str_body.extend(_print_get_str_body(classname, type, vpi, card))
 
-    if baseclass in vpi_get_body_inst:
-        vpi_case_body = []
-        for _, type, vpi, card in vpi_get_body_inst[baseclass]:
-            vpi_case_body.extend(_print_get_body(classname, type, vpi, card))
+    vpi_case_body = []
+    for type, vpi, card in vpi_get_body_inst[baseclass]:
+        vpi_case_body.extend(_print_get_body(classname, type, vpi, card))
            
-        # The case body can be empty if all propeerties have been handled
-        # in the base class. So only if non-empty, add the if/switch
-        if vpi_case_body:
-            vpi_get_body.extend(_print_get_body_prefix(classname))
-            vpi_get_body.extend(vpi_case_body)
-            vpi_get_body.extend(_print_get_body_suffix())
+    # The case body can be empty if all propeerties have been handled
+    # in the base class. So only if non-empty, add the if/switch
+    if vpi_case_body:
+        vpi_get_body.extend(_print_get_body_prefix(classname))
+        vpi_get_body.extend(vpi_case_body)
+        vpi_get_body.extend(_print_get_body_suffix())
 
-        for _, type, vpi, card in vpi_get_body_inst[baseclass]:
-            vpi_get_value_body.extend(_print_get_value_body(classname, type, vpi, card))
-            vpi_get_delay_body.extend(_print_get_delay_body(classname, type, vpi, card))
-            VISITOR[classname].extend(_print_get_visitor(classname, type, vpi, card))
+    for type, vpi, card in vpi_get_body_inst[baseclass]:
+        vpi_get_value_body.extend(_print_get_value_body(classname, type, vpi, card))
+        vpi_get_delay_body.extend(_print_get_delay_body(classname, type, vpi, card))
 
 
-def _process_baseclass(models, baseclass, classname, modeltype):
-    Classname = (classname[:1].upper() + classname[1:]).replace('_', '')
-
+def _process_baseclass(model, models):
+    classname = model['name']
+    baseclass = model['extends']
     while baseclass:
-        Baseclass = (baseclass[:1].upper() + baseclass[1:]).replace('_', '')
-
-        # VPI
         _update_vpi_inst(baseclass, classname)
 
-        if baseclass in vpi_iterate_body:
-            vpi_iterate_body_all.extend([line.replace(f'= uhdm{baseclass}', f'= uhdm{classname}') for line in vpi_iterate_body[baseclass]])
+        vpi_iterate_body_all.extend([
+          line.replace(f'= uhdm{baseclass}', f'= uhdm{classname}')
+          for line in vpi_iterate_body[baseclass]
+        ])
 
-        if baseclass in vpi_handle_body:
-            vpi_handle_body_all.extend([
-              line.replace(f'= uhdm{baseclass}', f'= uhdm{classname}').replace(f'{baseclass}*', f'{classname}*')
-              for line in vpi_handle_body[baseclass]
-            ])
+        vpi_handle_body_all.extend([
+          line.replace(f'= uhdm{baseclass}', f'= uhdm{classname}').replace(f'{baseclass}*', f'{classname}*')
+          for line in vpi_handle_body[baseclass]
+        ])
 
-        if baseclass in vpi_handle_by_name_body:
-            vpi_handle_by_name_body_all.extend([line.replace(f'= uhdm{baseclass}', f'= uhdm{classname}') for line in vpi_handle_by_name_body[baseclass]])
+        vpi_handle_by_name_body_all.extend([
+          line.replace(f'= uhdm{baseclass}', f'= uhdm{classname}')
+          for line in vpi_handle_by_name_body[baseclass]
+        ])
 
-        if baseclass in vpi_iterator:
-            for vpi, type, card in vpi_iterator[baseclass]:
-                _print_vpi_visitor(classname, vpi, card) 
-
-        # Parent class
         baseclass = models[baseclass]['extends']
 
 
@@ -298,9 +228,6 @@ def generate(models):
         classname = model['name']
         baseclass = model['extends']
 
-        VISITOR[classname] = []
-        VISITOR_RELATIONS[classname] = []
-
         vpi_iterate_body[classname] = []
         vpi_iterator[classname] = []
         vpi_handle_body[classname] = []
@@ -308,16 +235,12 @@ def generate(models):
         vpi_get_body_inst[classname] = []
         vpi_handle_by_name_body[classname] = []
 
-        Classname_ = classname[:1].upper() + classname[1:]
-        Classname = Classname_.replace('_', '')
-
         if modeltype != 'class_def':
             # Builtin properties do not need to be specified in each models
             # Builtins: "vpiParent, Parent type, vpiFile, Id" method and field
             vpi_handle_body[classname] += _print_get_handle_body(classname, 'BaseClass', 'vpiParent', 'vpiParent', '1')
-            vpi_get_str_body_inst[classname].append((classname, 'string', 'vpiFile', '1'))
+            vpi_get_str_body_inst[classname].append(('string', 'vpiFile', '1'))
 
-        indTmp = 0
         type_specified = False
         for key, value in model.items():
             if key == 'property':
@@ -329,15 +252,12 @@ def generate(models):
 
                     if prop == 'type':
                         type_specified = True
-                        vpi_get_body_inst[classname].append((classname, type, vpi, card))
+                        vpi_get_body_inst[classname].append((type, vpi, card))
                         continue
 
                     # properties are already defined in vpi_user.h, no need to redefine them
-                    vpi_get_body_inst[classname].append((classname, type, vpi, card))
-                    vpi_get_str_body_inst[classname].append((classname, type, vpi, card))
-
-                    Vpi_ = vpi[:1].upper() + vpi[1:]
-                    Vpi = Vpi_.replace('_', '')
+                    vpi_get_body_inst[classname].append((type, vpi, card))
+                    vpi_get_str_body_inst[classname].append((type, vpi, card))
 
             elif key in ['class', 'obj_ref', 'class_ref', 'group_ref']:
                 for name, content in value.items():
@@ -347,16 +267,9 @@ def generate(models):
                     vpi  = content.get('vpi')
                     type = content.get('type')
                     card = content.get('card')
-                    id   = content.get('id')
-
-                    Type_ = type[:1].upper() + type[1:]
-                    Type = Type_.replace('_', '')
-                    Name_ = name
-                    Name = name.replace('_', '')
 
                     if (card == 'any') and not name.endswith('s'):
                         name += 's'
-                    real_type = type
 
                     if key == 'group_ref':
                         type = 'any'
@@ -369,7 +282,7 @@ def generate(models):
 
         if not type_specified and (modeltype == 'obj_def'):
             vpiclasstype = config.make_vpi_name(classname)
-            vpi_get_body_inst[classname].append((classname, 'unsigned int', 'vpiType', '1'))
+            vpi_get_body_inst[classname].append(('unsigned int', 'vpiType', '1'))
 
         # VPI
         _update_vpi_inst(classname, classname)
@@ -379,7 +292,7 @@ def generate(models):
         vpi_handle_by_name_body_all.extend(vpi_handle_by_name_body[classname])
 
         # process baseclass recursively
-        _process_baseclass(models, baseclass, classname, modeltype)
+        _process_baseclass(model, models)
 
     # vpi_user.cpp
     with open(config.get_template_filepath('vpi_user.cpp'), 'r+t') as strm:
@@ -395,33 +308,6 @@ def generate(models):
     file_content = file_content.replace('<VPI_GET_DELAY_BODY>', '\n'.join(vpi_get_delay_body))
     file_content = file_content.replace('<VPI_GET_STR_BODY>', '\n'.join(vpi_get_str_body))
     file_utils.set_content_if_changed(config.get_source_filepath('vpi_user.cpp'), file_content)
-
-
-    ########################################################################
-
-    # vpi_visitor.cpp
-    visitors = []
-    for model in models.values():
-        modeltype = model['type']
-        if modeltype == 'group_def':
-            continue
-
-        classname = model['name']
-        # if classname not in _whitelist:
-        #     continue
-
-        vpi_name = config.make_vpi_name(classname)
-        visitors.append(f'  if (objectType == {vpi_name}) {{')
-        visitors.extend(VISITOR[classname])
-        visitors.extend(VISITOR_RELATIONS[classname])
-        visitors.append( '    return;')
-        visitors.append( '  }')
-
-    with open(config.get_template_filepath('vpi_visitor.cpp'), 'r+t') as strm:
-        file_content = strm.read()
-
-    file_content = file_content.replace('<OBJECT_VISITORS>', '\n'.join(visitors))
-    file_utils.set_content_if_changed(config.get_source_filepath('vpi_visitor.cpp'), file_content)
 
     return True
 
