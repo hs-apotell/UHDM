@@ -39,6 +39,9 @@ def _main():
     # vpi_uhdm.h
     file_utils.copy_file_if_changed(config.get_template_filepath('vpi_uhdm.h'), config.get_header_filepath('vpi_uhdm.h'))
 
+    # vpi_visitor.h
+    file_utils.copy_file_if_changed(config.get_template_filepath('vpi_visitor.h'), config.get_header_filepath('vpi_visitor.h'))
+
     return 0
 
 

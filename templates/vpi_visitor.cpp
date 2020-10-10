@@ -567,6 +567,7 @@ static void visit_object (vpiHandle obj_h, int indent, const char *relation, Vis
   if (strcmp(relation, "vpiParent") == 0) {
     return;
   }
+  vpiHandle itr;
 <OBJECT_VISITORS>
 }
 
