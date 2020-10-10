@@ -71,3 +71,45 @@ def get_source_filepath(filename):
 
 def get_modellist_filepath():
     return os.path.join(_cwd, _models_dirname, 'models.lst')
+
+
+def make_vpi_name(classname):
+    vpiclasstype = f'vpi{classname[:1].upper()}{classname[1:]}'
+
+    underscore = False
+    type = vpiclasstype
+    vpiclasstype = ''
+    for ch in type:
+        if ch == '_':
+          underscore = True
+        elif underscore:
+            vpiclasstype += ch.upper()
+            underscore = False
+        else:
+            vpiclasstype += ch
+
+    overrides = {
+      'vpiForkStmt': 'vpiFork',
+      'vpiForStmt': 'vpiFor',
+      'vpiIoDecl': 'vpiIODecl',
+      'vpiClockingIoDecl': 'vpiClockingIODecl',
+      'vpiTfCall': 'vpiSysTfCall',
+      'vpiAtomicStmt': 'vpiStmt',
+      'vpiAssertStmt': 'vpiAssert',
+      'vpiClockedProperty': 'vpiClockedProp',
+      'vpiIfStmt': 'vpiIf',
+      'vpiWhileStmt': 'vpiWhile',
+      'vpiCaseStmt': 'vpiCase',
+      'vpiContinueStmt': 'vpiContinue',
+      'vpiBreakStmt': 'vpiBreak',
+      'vpiReturnStmt': 'vpiReturn',
+      'vpiProcessStmt': 'vpiProcess',
+      'vpiForeverStmt': 'vpiForever',
+      'vpiConstrForeach': 'vpiConstrForEach',
+      'vpiFinalStmt': 'vpiFinal',
+      'vpiWaitStmt': 'vpiWait',
+      'vpiThreadObj': 'vpiThread',
+      'vpiSwitchTran': 'vpiSwitch',
+    }
+
+    return overrides.get(vpiclasstype, vpiclasstype)

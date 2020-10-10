@@ -222,48 +222,6 @@ def _print_get_str_body(classname, type, vpi, card):
     return content
 
 
-def _make_vpi_name(classname):
-    vpiclasstype = f'vpi{classname[:1].upper() + classname[1:]}'
-
-    underscore = False
-    vpict = vpiclasstype
-    vpiclasstype = ''
-    for ch in vpict:
-        if ch == '_':
-          underscore = True
-        elif underscore:
-            vpiclasstype += ch.upper()
-            underscore = False
-        else:
-            vpiclasstype += ch
-
-    overrides = {
-      'vpiForkStmt': 'vpiFork',
-      'vpiForStmt': 'vpiFor',
-      'vpiIoDecl': 'vpiIODecl',
-      'vpiClockingIoDecl': 'vpiClockingIODecl',
-      'vpiTfCall': 'vpiSysTfCall',
-      'vpiAtomicStmt': 'vpiStmt',
-      'vpiAssertStmt': 'vpiAssert',
-      'vpiClockedProperty': 'vpiClockedProp',
-      'vpiIfStmt': 'vpiIf',
-      'vpiWhileStmt': 'vpiWhile',
-      'vpiCaseStmt': 'vpiCase',
-      'vpiContinueStmt': 'vpiContinue',
-      'vpiBreakStmt': 'vpiBreak',
-      'vpiReturnStmt': 'vpiReturn',
-      'vpiProcessStmt': 'vpiProcess',
-      'vpiForeverStmt': 'vpiForever',
-      'vpiConstrForeach': 'vpiConstrForEach',
-      'vpiFinalStmt': 'vpiFinal',
-      'vpiWaitStmt': 'vpiWait',
-      'vpiThreadObj': 'vpiThread',
-      'vpiSwitchTran': 'vpiSwitch',
-    }
-
-    return overrides.get(vpiclasstype, vpiclasstype)
-
-
 def _print_scan_body(name, classname, type, card):
     content = []
     if card == 'any':
@@ -410,7 +368,7 @@ def generate(models):
                     vpi_handle_body[classname].extend(_print_get_handle_body(classname, f'uhdm{type}', vpi, name, card))
 
         if not type_specified and (modeltype == 'obj_def'):
-            vpiclasstype = _make_vpi_name(classname)
+            vpiclasstype = config.make_vpi_name(classname)
             vpi_get_body_inst[classname].append((classname, 'unsigned int', 'vpiType', '1'))
 
         # VPI
@@ -452,7 +410,7 @@ def generate(models):
         # if classname not in _whitelist:
         #     continue
 
-        vpi_name = _make_vpi_name(classname)
+        vpi_name = config.make_vpi_name(classname)
         visitors.append(f'  if (objectType == {vpi_name}) {{')
         visitors.extend(VISITOR[classname])
         visitors.extend(VISITOR_RELATIONS[classname])

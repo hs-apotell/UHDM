@@ -93,48 +93,6 @@ def _print_members(type, vpi, card):
     return content
 
 
-def _make_vpi_name(classname):
-    vpiclasstype = f'vpi{classname[:1].upper() + classname[1:]}'
-
-    underscore = False
-    vpict = vpiclasstype
-    vpiclasstype = ''
-    for ch in vpict:
-        if ch == '_':
-          underscore = True
-        elif underscore:
-            vpiclasstype += ch.upper()
-            underscore = False
-        else:
-            vpiclasstype += ch
-
-    overrides = {
-      'vpiForkStmt': 'vpiFork',
-      'vpiForStmt': 'vpiFor',
-      'vpiIoDecl': 'vpiIODecl',
-      'vpiClockingIoDecl': 'vpiClockingIODecl',
-      'vpiTfCall': 'vpiSysTfCall',
-      'vpiAtomicStmt': 'vpiStmt',
-      'vpiAssertStmt': 'vpiAssert',
-      'vpiClockedProperty': 'vpiClockedProp',
-      'vpiIfStmt': 'vpiIf',
-      'vpiWhileStmt': 'vpiWhile',
-      'vpiCaseStmt': 'vpiCase',
-      'vpiContinueStmt': 'vpiContinue',
-      'vpiBreakStmt': 'vpiBreak',
-      'vpiReturnStmt': 'vpiReturn',
-      'vpiProcessStmt': 'vpiProcess',
-      'vpiForeverStmt': 'vpiForever',
-      'vpiConstrForeach': 'vpiConstrForEach',
-      'vpiFinalStmt': 'vpiFinal',
-      'vpiWaitStmt': 'vpiWait',
-      'vpiThreadObj': 'vpiThread',
-      'vpiSwitchTran': 'vpiSwitch',
-    }
-
-    return overrides.get(vpiclasstype, vpiclasstype)
-
-
 members = {}
 def _generate_group_checker(model, models, templates):
     groupname = model.get('name')
@@ -255,7 +213,7 @@ def _generate_one_class(model, models, templates):
                 members.extend(_print_members(type, name, card))
 
     if not type_specified and (modeltype == 'obj_def'):
-        vpiclasstype = _make_vpi_name(classname)
+        vpiclasstype = config.make_vpi_name(classname)
         methods.append(f'    unsigned int VpiType() const final {{ return {vpiclasstype}; }}')
 
     if modeltype == 'class_def':
