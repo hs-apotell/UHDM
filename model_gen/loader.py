@@ -103,7 +103,7 @@ def load_models():
 
 
 def _main():
-  config.set_cwd(r'D:\Projects\Davenche\UHDM')
+  config.set_cwd()
   load_models()
   return 0
 

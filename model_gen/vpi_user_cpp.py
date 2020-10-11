@@ -34,14 +34,6 @@ vpi_handle_body_all = []
 vpi_handle_by_name_body_all = []
 
 
-def _classnames(models):
-  return [ model['name'] for model in models.values() ]
-
-
-def _format_headers(models):
-    return '\n'.join([ f'#include "headers/{class_name}.h"' for class_name in _classnames(models) ])
-
-
 def _print_iterate_body(name, classname, vpi, card):
     content = []
     if card == 'any':
@@ -294,11 +286,13 @@ def generate(models):
         # process baseclass recursively
         _process_baseclass(model, models)
 
+    headers = [ f"#include \"headers/{model['name']}.h\"" for model in models.values() ]
+
     # vpi_user.cpp
     with open(config.get_template_filepath('vpi_user.cpp'), 'r+t') as strm:
         file_content = strm.read()
 
-    file_content = file_content.replace('<HEADERS>', _format_headers(models))
+    file_content = file_content.replace('<HEADERS>', '\n'.join(headers))
     file_content = file_content.replace('<VPI_HANDLE_BY_NAME_BODY>', '\n'.join(vpi_handle_by_name_body_all))
     file_content = file_content.replace('<VPI_ITERATE_BODY>', '\n'.join(vpi_iterate_body_all))
     file_content = file_content.replace('<VPI_SCAN_BODY>', '\n'.join(vpi_scan_body))
@@ -315,7 +309,7 @@ def generate(models):
 def _main():
     import loader
 
-    config.set_cwd(r'D:\Projects\Davenche\UHDM')
+    config.set_cwd()
 
     models = loader.load_models()
     return generate(models)

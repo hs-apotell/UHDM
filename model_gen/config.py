@@ -13,22 +13,31 @@
 # limitations under the License.
 
 import os
+from threading import Thread, Lock
 
-
-_cwd = os.path.dirname(os.path.realpath(__file__))
+_cwd = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 _models_dirname = 'model'
 _template_dirname = 'templates'
 _sources_dirname = 'src.py'
 _headers_dirname = 'headers.py'
-_debug = False
+_verbose = True
+
+_log_mutex = Lock()
+
+def verbosity():
+    return _verbose
 
 
-def debug_enabled():
-    return _debug
+def log(text, end='\n'):
+    _log_mutex.acquire()
+    try:
+        print(text, end=end, flush=True)
+    finally:
+        _log_mutex.release()
 
 
-def set_cwd(dirpath):
+def set_cwd(dirpath=_cwd):
     global _cwd
     _cwd = dirpath
 

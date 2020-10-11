@@ -12,20 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 import config
 import file_utils
 
 
 def generate(models):
-    classnames = [ model['name'] for model in models.values() ]
-    headers = '\n'.join([ f'#include "headers/{classname}.h"' for classname in classnames ])
+    methods = []
+    for model in models.values():
+        if model['type'] != 'group_def':
+            classname = model['name']
+            Classname_ = classname[:1].upper() + classname[1:]
 
-    with open(config.get_template_filepath('uhdm.h'), 'r+t') as strm:
+            methods.append(f'    virtual void enter{Classname_}(const {classname}* object, const BaseClass* parent, vpiHandle handle, vpiHandle parentHandle) {{ }}')
+            methods.append(f'    virtual void leave{Classname_}(const {classname}* object, const BaseClass* parent, vpiHandle handle, vpiHandle parentHandle) {{ }}')
+            methods.append('')
+
+    with open(config.get_template_filepath('VpiListener.h'), 'r+t') as strm:
         file_content = strm.read()
 
-    file_content = file_content.replace('<INCLUDE_FILES>', headers)
-    file_utils.set_content_if_changed(config.get_header_filepath('uhdm.h'), file_content)
+    file_content = file_content.replace('<VPI_LISTENER_METHODS>', '\n'.join(methods))
+    file_utils.set_content_if_changed(config.get_header_filepath('VpiListener.h'), file_content)
     return True
 
 

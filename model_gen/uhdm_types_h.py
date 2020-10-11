@@ -60,7 +60,7 @@ def get_type_map(models):
 
 
 def generate(models):
-    types = '\n'.join([f'  {name} = {id},' for name, id in get_type_map().items()])
+    types = '\n'.join([f'  {name} = {id},' for name, id in get_type_map(models).items()])
 
     with open(config.get_template_filepath('uhdm_types.h'), 'r+t') as strm:
         file_content = strm.read()
@@ -73,7 +73,7 @@ def generate(models):
 def _main():
     import loader
 
-    config.set_cwd(r'D:\Projects\Davenche\UHDM')
+    config.set_cwd()
 
     models = loader.load_models()
     return generate(models)

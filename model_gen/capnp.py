@@ -108,7 +108,6 @@ def generate(models):
                         capnp_schema_all.append(f'  {name} @{capnpIndex} :{type};')
                         capnpIndex += 1
 
-                # Parent class
                 baseclass = models[baseclass]['extends']
 
             capnp_schema_all.append('}')
@@ -119,24 +118,24 @@ def generate(models):
 
     file_content = file_content.replace('<CAPNP_SCHEMA>', '\n'.join(capnp_schema_all))
     file_content = file_content.replace('<CAPNP_ROOT_SCHEMA>', '\n'.join(capnp_root_schema))
-    file_utils.set_content_if_changed(config.get_source_filepath('UHDM.capnp'), file_content)
 
-    file_utils.remove_file_safely(config.get_source_filepath('UHDM.capnp.h'))
-    file_utils.remove_file_safely(config.get_source_filepath('UHDM.capnp.c++'))
+    if file_utils.set_content_if_changed(config.get_source_filepath('UHDM.capnp'), file_content):
+        file_utils.remove_file_safely(config.get_source_filepath('UHDM.capnp.h'))
+        file_utils.remove_file_safely(config.get_source_filepath('UHDM.capnp.c++'))
 
-    suffix = '.exe' if platform.system() == 'Windows' else ''
-    capnp_plugin_exepath = file_utils.find_file(config.get_cwd(), f'capnpc-c++{suffix}')
-    if not capnp_plugin_exepath:
-      raise FileNotFoundError('capnp executable was not found')
+        suffix = '.exe' if platform.system() == 'Windows' else ''
+        capnp_plugin_exepath = file_utils.find_file(config.get_cwd(), f'capnpc-c++{suffix}')
+        if not capnp_plugin_exepath:
+          raise FileNotFoundError('capnp executable was not found')
 
-    capnp_dirpath = os.path.dirname(capnp_plugin_exepath)
-    capnp_exepath = os.path.join(capnp_dirpath, f'capnp{suffix}')
-    subprocess.check_call(
-        [capnp_exepath, 'compile', '-oc++', 'UHDM.capnp'],
-        cwd=config.get_source_dirpath(),
-        shell=True,
-        stderr=subprocess.STDOUT,
-        env={ 'PATH': f'{capnp_dirpath};$PATH' })
+        capnp_dirpath = os.path.dirname(capnp_plugin_exepath)
+        capnp_exepath = os.path.join(capnp_dirpath, f'capnp{suffix}')
+        subprocess.check_call(
+            [capnp_exepath, 'compile', '-oc++', 'UHDM.capnp'],
+            cwd=config.get_source_dirpath(),
+            shell=True,
+            stderr=subprocess.STDOUT,
+            env={ 'PATH': f'{capnp_dirpath};$PATH' })
 
     return True
 
@@ -144,7 +143,7 @@ def generate(models):
 def _main():
     import loader
 
-    config.set_cwd(r'D:\Projects\Davenche\UHDM')
+    config.set_cwd()
 
     models = loader.load_models()
     return generate(models)

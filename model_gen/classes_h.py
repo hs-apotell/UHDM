@@ -19,11 +19,6 @@ import config
 import file_utils
 
 
-def log(arg):
-    if config.debug_enabled():
-        print(arg)
-
-
 def _print_methods(classname, type, vpi, card, real_type=''):
     content = []
     if type in ['string', 'value', 'delay']:
@@ -250,7 +245,7 @@ def generate(models):
         classname = model['name']
         modeltype = model['type']
 
-        log(f'Generating headers/{classname}.h')
+        config.log(f'> Generating headers/{classname}.h')
 
         if modeltype == 'group_def':
             _generate_group_checker(model, models, templates)
@@ -263,7 +258,7 @@ def generate(models):
 def _main():
     import loader
 
-    config.set_cwd(r'D:\Projects\Davenche\UHDM')
+    config.set_cwd()
 
     models = loader.load_models()
     return generate(models)

@@ -122,7 +122,7 @@ def generate(models):
 def _main():
     import loader
 
-    config.set_cwd(r'D:\Projects\Davenche\UHDM')
+    config.set_cwd()
 
     models = loader.load_models()
     return generate(models)
