@@ -15,6 +15,7 @@ matrix:
             - sourceline: "ppa:ubuntu-toolchain-r/test"
             - sourceline: 'deb https://apt.kitware.com/ubuntu/ xenial main'
               key_url: 'https://apt.kitware.com/keys/kitware-archive-latest.asc'
+            - deadsnakes
 
           packages:
             - g++-7

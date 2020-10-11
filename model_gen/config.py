@@ -19,8 +19,8 @@ _cwd = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 _models_dirname = 'model'
 _template_dirname = 'templates'
-_sources_dirname = 'src.py'
-_headers_dirname = 'headers.py'
+_sources_dirname = 'src'
+_headers_dirname = 'headers'
 _verbose = True
 
 _log_mutex = Lock()
