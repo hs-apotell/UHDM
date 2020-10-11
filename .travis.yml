@@ -20,7 +20,7 @@ matrix:
             - g++-7
             - cmake
             - build-essential
-            - python3.8
+            - python3.6
 
       env:
         - PATH=/usr/bin:$PATH
@@ -32,7 +32,7 @@ matrix:
       language: shell
       install:
         - choco install -y make
-        - choco install -y python --version 3.8.0 --no-progress
+        - choco install -y python --version 3.6.0 --no-progress
         - choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
         - choco install -y visualstudio2019-workload-vctools
 

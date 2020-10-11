@@ -49,6 +49,8 @@ def set_cwd(dirpath=_cwd):
     if not os.path.exists(sources_dirpath):
         os.mkdir(sources_dirpath)
 
+    print(f'Configuration updates: cwd={_cwd}, headers={headers_dirpath}, sources={sources_dirpath}')
+
 
 def get_cwd():
     return _cwd
