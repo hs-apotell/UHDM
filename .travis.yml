@@ -20,7 +20,7 @@ matrix:
             - g++-7
             - cmake
             - build-essential
-            - tclsh
+            - python3
 
       env:
         - PATH=/usr/bin:$PATH
@@ -32,6 +32,7 @@ matrix:
       language: shell
       install:
         - choco install -y make
+        - choco install -y python --version 3.8.0 --no-progress
         - choco install -y visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
         - choco install -y visualstudio2019-workload-vctools
 
@@ -40,13 +41,13 @@ matrix:
         - CMAKE_GENERATOR="Visual Studio 16 2019"
         - CMAKE_GENERATOR_PLATFORM=x64
         - PATH=/c/make/bin:$PATH
-        - PATH="/c/Program Files/Git/mingw64/bin:$PATH"
+        - PATH=/c/Python38:$PATH
 
 # Build steps
 script:
   - cmake --version
   - make --version
-  - echo 'puts [info patchlevel];exit 0' | tclsh
+  - python --version
   - make clean
   - make
   - make test
