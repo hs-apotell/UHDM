@@ -39,7 +39,7 @@ def generate(models):
         elif 'Parameter' in vpi_name:
             implementation.append(f'  {classname}* clone = dynamic_cast<{classname}*>(elaborator->bindParam(VpiName()));')
             implementation.append( '  if (clone == nullptr) {')
-            implementation.append( '    clone = serializer->Make{Classname}();')
+            implementation.append(f'    clone = serializer->Make{Classname}();')
             implementation.append( '  }')
 
         else:

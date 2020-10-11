@@ -208,7 +208,7 @@ def generate(models):
                         saves[classname].append('      }')
                         saves[classname].append('    }')
 
-                        restores[classname].append(f'  if (!obj.get{Name}().empty()) {{')
+                        restores[classname].append(f'  if (obj.get{Name}().size()) {{')
                         restores[classname].append(f'    std::vector<{type}*>* vect = {type}VectMaker.Make();')
                         restores[classname].append(f'    for (unsigned int ind = 0; ind < obj.get{Name}().size(); ind++) {{')
 

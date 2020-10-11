@@ -23,14 +23,14 @@ def _get_vpihandle_visitor(classname, vpi, card):
 
     if card == '1':
         # Prevent loop in Standard VPI
-        if (vpi != 'vpiModule') and (vpi != 'vpiInterface'):
-            content.append(f'    itr = vpi_handle({vpi},obj_h);')
+        if vpi not in ['vpiModule', 'vpiInterface']:
+            content.append(f'    itr = vpi_handle({vpi}, obj_h);')
             content.append(f'    visit_object(itr, subobject_indent, "{vpi}", visited, out);')
             content.append( '    release_handle(itr);')
 
     else:
         if classname == 'design':
-            content.append('  if (indent == 0) visited->clear();')
+            content.append('    if (indent == 0) visited->clear();')
 
         # Prevent loop in Standard VPI
         if vpi != 'vpiUse':
@@ -68,7 +68,7 @@ def _get_vpi_xxx_visitor(type, vpi, card):
         content.append('    vpi_get_delays(obj_h, &delay);')
         content.append('    if (delay.da != nullptr) {')
         content.append('        stream_indent(out, indent) << visit_delays(&delay);')
-        content.append('    }}')
+        content.append('    }')
     elif (card == '1') and (type != 'string') and (vpi != 'vpiLineNo') and (vpi != 'vpiType'):
         content.append(f'    if (const int n = vpi_get({vpi}, obj_h))')
         content.append( '      if (n != -1)')
@@ -148,12 +148,13 @@ def generate(models):
 
             baseclass = models[baseclass]['extends']
 
-        vpi_name = config.make_vpi_name(classname)
-        visitors.append(f'  if (objectType == {vpi_name}) {{')
-        visitors.extend(locals)
-        visitors.extend(remotes)
-        visitors.append( '    return;')
-        visitors.append( '  }')
+        if locals or remotes:
+            vpi_name = config.make_vpi_name(classname)
+            visitors.append(f'  if (objectType == {vpi_name}) {{')
+            visitors.extend(locals)
+            visitors.extend(remotes)
+            visitors.append( '    return;')
+            visitors.append( '  }')
 
     # vpi_visitor.cpp
     with open(config.get_template_filepath('vpi_visitor.cpp'), 'r+t') as strm:
