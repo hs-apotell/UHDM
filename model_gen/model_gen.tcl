@@ -413,7 +413,7 @@ proc printGetStrBody {classname type vpi card} {
 }
 
 proc printVpiListener {classname vpi type card} {
-    global VPI_LISTENERS VPI_LISTENERS_HEADER VPI_ANY_LISTENERS
+    global VPI_LISTENERS VPI_LISTENERS_HEADER VPI_ANY_LISTENERS MODEL_TYPE
     if {$card == 0} {
         set VPI_LISTENERS_HEADER($classname) "void listen_${classname}(vpiHandle object, UHDM::VpiListener* listener);
 "
@@ -435,6 +435,10 @@ proc printVpiListener {classname vpi type card} {
     }
     if {(($vpi == "vpiModule") || ($vpi == "vpiInterface")) && ($card == 1)} {
         # upward vpiModule, vpiInterface relation (when card == 1, pointing to the parent object) creates loops in visitors
+        return
+    }
+    if {($classname == "func_call") && ($vpi == "vpiFunction") && ($card == 1)} {
+        # Prevent stepping inside functions while processing calls to them
         return
     }
 
@@ -494,8 +498,6 @@ proc printClassListener {classname} {
 proc printVpiVisitor {classname vpi card} {
     global VISITOR_RELATIONS
 
-    puts "Visitor => $classname, $vpi, $card"
-
     set vpi_visitor ""
 #    if ![info exist VISITOR_RELATIONS($classname)] {
 #        set vpi_visitor "    vpiHandle itr;
@@ -508,6 +510,11 @@ proc printVpiVisitor {classname vpi card} {
 #    }
 
     if {($vpi == "vpiParent") && ($classname !="part_select")} {
+        return
+    }
+
+    # Don't step into function when visiting func calls
+    if {($classname == "func_call") && ($vpi == "vpiFunction") && ($card == 1)} {
         return
     }
 

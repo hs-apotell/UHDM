@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>bdbc56d1-89ba-40cd-9724-d828e05d8a7d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>generate.py</StartupFile>
+    <StartupFile>vpi_listener.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -42,6 +42,7 @@
     <Compile Include="uhdm_forward_decl_h.py" />
     <Compile Include="uhdm_h.py" />
     <Compile Include="uhdm_types_h.py" />
+    <Compile Include="VpiListenerTracer_h.py" />
     <Compile Include="VpiListener_h.py" />
     <Compile Include="vpi_listener.py" />
     <Compile Include="vpi_user_cpp.py" />

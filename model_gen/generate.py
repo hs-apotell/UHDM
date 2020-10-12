@@ -32,6 +32,7 @@ import vpi_listener
 import vpi_user_cpp
 import vpi_visitor_cpp
 import VpiListener_h
+import VpiListenerTracer_h
 
 
 def _worker(params):
@@ -99,6 +100,9 @@ def _worker(params):
     elif key == 'VpiListener_h':
         return VpiListener_h.generate(models)
 
+    elif key == 'VpiListenerTracer_h':
+        return VpiListenerTracer_h.generate(models)
+
     config.log('ERROR: Unknown key "{key}"')
     return False
 
@@ -148,6 +152,7 @@ def _main():
         ('vpi_visitor_h', None),
         ('vpi_visitor_cpp', models),
         ('VpiListener_h', models),
+        ('VpiListenerTracer_h', models),
     ]
 
     if multi:

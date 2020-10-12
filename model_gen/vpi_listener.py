@@ -85,8 +85,9 @@ def generate(models):
                     if key == 'group_ref':
                         type = 'any'
 
-                    listeners.extend(_get_iterator(classname, vpi, type, card))
-                    iterators[classname].append((vpi, type, card))
+                    if not ((key == 'obj_ref') and (vpi == 'vpiFunction') and (card == '1')):
+                        listeners.extend(_get_iterator(classname, vpi, type, card))
+                        iterators[classname].append((vpi, type, card))
 
         # process baseclass recursively
         baseclass = model['extends']
