@@ -124,6 +124,7 @@ def generate(models):
         file_utils.remove_file_safely(config.get_source_filepath('UHDM.capnp.c++'))
 
         suffix = '.exe' if platform.system() == 'Windows' else ''
+        separator = ';' if platform.system() == 'Windows' else ':'
         capnp_plugin_exepath = file_utils.find_file(config.get_cwd(), f'capnpc-c++{suffix}')
         if not capnp_plugin_exepath:
           raise FileNotFoundError('capnp executable was not found')
@@ -131,11 +132,17 @@ def generate(models):
         capnp_dirpath = os.path.dirname(capnp_plugin_exepath)
         capnp_exepath = os.path.join(capnp_dirpath, f'capnp{suffix}')
         subprocess.check_call(
-            [capnp_exepath, 'compile', '-oc++', 'UHDM.capnp'],
+            f'{capnp_exepath} compile -oc++ UHDM.capnp',
             cwd=config.get_source_dirpath(),
             shell=True,
             stderr=subprocess.STDOUT,
-            env={ 'PATH': f'{capnp_dirpath};$PATH' })
+            env=dict(os.environ, PATH=f'{capnp_dirpath}{separator}$PATH'))
+#        subprocess.check_call(
+#            [capnp_exepath, 'compile', '-oc++', 'UHDM.capnp'],
+#            cwd=config.get_source_dirpath(),
+#            shell=True,
+#            stderr=subprocess.STDOUT,
+#            env={ 'PATH': f'{capnp_dirpath};$PATH' })
 
     return True
 
