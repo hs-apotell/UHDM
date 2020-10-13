@@ -137,12 +137,6 @@ def generate(models):
             shell=True,
             stderr=subprocess.STDOUT,
             env=dict(os.environ, PATH=f'{capnp_dirpath}{separator}$PATH'))
-#        subprocess.check_call(
-#            [capnp_exepath, 'compile', '-oc++', 'UHDM.capnp'],
-#            cwd=config.get_source_dirpath(),
-#            shell=True,
-#            stderr=subprocess.STDOUT,
-#            env={ 'PATH': f'{capnp_dirpath};$PATH' })
 
     return True
 
