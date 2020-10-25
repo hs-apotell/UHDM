@@ -1,0 +1,168 @@
+name: 'main'
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux+gcc:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Install dependencies
+      run: |
+        sudo apt-get update -qq
+        sudo apt install -y g++-9 build-essential cmake tclsh
+
+    - name: Git pull
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
+    - name: Configure shell environment variables
+      run: |
+        echo 'CC=gcc-9' >> $GITHUB_ENV
+        echo 'CXX=g++-9' >> $GITHUB_ENV
+        echo 'PREFIX=/usr/include' >> $GITHUB_ENV
+
+    - name: Show shell configuration
+      run: |
+        env
+        where cmake && cmake --version
+        where make && make --version
+        where tclsh && echo 'puts [info patchlevel];exit 0' | tclsh
+        where $CC && $CC --version
+        where $CXX && $CXX --version
+
+    - name: Build & Test
+      run: |
+        make release
+        make test
+        sudo make install
+        make test_install
+
+  msys2+gcc:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+    - name: Install core dependencies
+      run: choco install -y swig --version=3.0.12
+      shell: powershell
+
+    - name: Setup Msys2
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MSYS
+        update: true
+        install: make cmake ninja gcc
+      env:
+        MSYS2_PATH_TYPE: inherit
+
+    - name: Configure Git
+      run: git config --global core.autocrlf input
+      shell: bash
+
+    - name: Git pull
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
+    - name: Configure shell environment variables
+      run: |
+        echo "CMAKE_GENERATOR=Ninja" >> $GITHUB_ENV
+        echo "CC=gcc" >> $GITHUB_ENV
+        echo "CXX=g++" >> $GITHUB_ENV
+        echo "NO_TCMALLOC=On" >> $GITHUB_ENV
+        echo "PREFIX=$PWD/install" >> $GITHUB_ENV
+
+    - name: Show shell configuration
+      run: |
+        env
+        where cmake && cmake --version
+        where make && make --version
+        where ninja && ninja --version
+        where tclsh && echo 'puts [info patchlevel];exit 0' | tclsh
+        where $CC && $CC --version
+        where $CXX && $CXX --version
+
+    - name: Build & Test
+      run: |
+        make release
+        make test
+        sudo make install
+        make test_install
+
+  windows+msvc:
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: cmd
+
+    steps:
+    - name: Install Core Dependencies
+      run: |
+        choco install -y make
+        choco install -y swig --version=3.0.12
+
+    - run: git config --global core.autocrlf input
+      shell: bash
+
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
+    - name: Configure shell environment variables
+      run: |
+        echo "CMAKE_GENERATOR=Ninja" >> $GITHUB_ENV
+        echo "CC=cl" >> $GITHUB_ENV
+        echo "CXX=cl" >> $GITHUB_ENV
+        echo "NO_TCMALLOC=On" >> $GITHUB_ENV
+        echo "PREFIX=%GITHUB_WORKSPACE%\install" >> $GITHUB_ENV
+        echo "CPU_CORES=%NUMBER_OF_PROCESSORS%" >> $GITHUB_ENV
+        echo "MAKE_DIR=C:\make\bin" >> $GITHUB_ENV
+        echo "TCL_DIR=%PROGRAMFILES%\Git\mingw64\bin" >> $GITHUB_ENV
+
+        echo "C:\make\bin" >> $GITHUB_PATH
+        echo "%PROGRAMFILES%\Git\mingw64\bin" >> $GITHUB_PATH
+
+    - name: Show shell configuration
+      run: |
+        set
+        REM where cmake && cmake --version
+        REM where make && make --version
+        REM where ninja && ninja --version
+
+    - name: Build & Test
+      run: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+
+        set CMAKE_GENERATOR=Ninja
+        set CC=cl
+        set CXX=cl
+        set NO_TCMALLOC=On
+        set PREFIX=%GITHUB_WORKSPACE%\install
+        set CPU_CORES=%NUMBER_OF_PROCESSORS%
+
+        set MAKE_DIR=C:\make\bin
+        set TCL_DIR=%PROGRAMFILES%\Git\mingw64\bin
+        set PATH=%MAKE_DIR%;%TCL_DIR%;%PATH%
+
+        set
+        where cmake && cmake --version
+        where make && make --version
+        where ninja && ninja --version
+
+        make release
+        make test
+        sudo make install
+        make test_install
