@@ -73,11 +73,11 @@ jobs:
 
     - name: Configure shell
       run: |
-        echo "CMAKE_GENERATOR=Ninja" >> $GITHUB_ENV
-        echo "CC=gcc" >> $GITHUB_ENV
-        echo "CXX=g++" >> $GITHUB_ENV
-        echo "NO_TCMALLOC=On" >> $GITHUB_ENV
-        echo "PREFIX=$PWD/install" >> $GITHUB_ENV
+        echo 'CMAKE_GENERATOR=Ninja' >> $GITHUB_ENV
+        echo 'CC=gcc' >> $GITHUB_ENV
+        echo 'CXX=g++' >> $GITHUB_ENV
+        echo 'NO_TCMALLOC=On' >> $GITHUB_ENV
+        echo 'PREFIX=$PWD/install' >> $GITHUB_ENV
 
     - name: Show shell configuration
       run: |
@@ -101,7 +101,7 @@ jobs:
 
     defaults:
       run:
-        shell: cmd
+        shell: cmd {0}
 
     steps:
     - name: Install Core Dependencies
