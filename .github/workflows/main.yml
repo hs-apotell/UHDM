@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  linux+gcc:
+  linux-gcc:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -45,7 +45,7 @@ jobs:
         sudo make install
         make test_install
 
-  msys2+gcc:
+  msys2-gcc:
     runs-on: windows-latest
     defaults:
       run:
@@ -100,7 +100,7 @@ jobs:
         sudo make install
         make test_install
 
-  windows+msvc:
+  windows-msvc:
     runs-on: windows-latest
 
     defaults:
