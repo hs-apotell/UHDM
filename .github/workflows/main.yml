@@ -73,11 +73,11 @@ jobs:
 
     - name: Configure shell
       run: |
-        echo 'CMAKE_GENERATOR=Ninja' >> $GITHUB_ENV
         echo 'CC=gcc' >> $GITHUB_ENV
         echo 'CXX=g++' >> $GITHUB_ENV
-        echo 'NO_TCMALLOC=On' >> $GITHUB_ENV
         echo 'PREFIX=$PWD/install' >> $GITHUB_ENV
+        echo 'CMAKE_GENERATOR=Ninja' >> $GITHUB_ENV
+        echo 'NO_TCMALLOC=On' >> $GITHUB_ENV
 
     - name: Show shell configuration
       run: |
@@ -116,36 +116,15 @@ jobs:
         submodules: recursive
         fetch-depth: 0
 
-    - name: Configure shell
-      run: |
-        echo 'CMAKE_GENERATOR=Ninja' >> $GITHUB_ENV
-        echo 'CC=cl' >> $GITHUB_ENV
-        echo 'CXX=cl' >> $GITHUB_ENV
-        echo 'NO_TCMALLOC=On' >> $GITHUB_ENV
-        echo 'PREFIX=%GITHUB_WORKSPACE%\install' >> $GITHUB_ENV
-        echo 'CPU_CORES=%NUMBER_OF_PROCESSORS%' >> $GITHUB_ENV
-        echo 'MAKE_DIR=C:\make\bin' >> $GITHUB_ENV
-        echo 'TCL_DIR=%PROGRAMFILES%\Git\mingw64\bin' >> $GITHUB_ENV
-
-        echo 'C:\make\bin' >> $GITHUB_PATH
-        echo '%PROGRAMFILES%\Git\mingw64\bin' >> $GITHUB_PATH
-
-    - name: Show shell configuration
-      run: |
-        set
-        REM where cmake && cmake --version
-        REM where make && make --version
-        REM where ninja && ninja --version
-
     - name: Build & Test
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
 
-        set CMAKE_GENERATOR=Ninja
         set CC=cl
         set CXX=cl
-        set NO_TCMALLOC=On
         set PREFIX=%GITHUB_WORKSPACE%\install
+        set CMAKE_GENERATOR=Ninja
+        set NO_TCMALLOC=On
         set CPU_CORES=%NUMBER_OF_PROCESSORS%
 
         set MAKE_DIR=C:\make\bin
