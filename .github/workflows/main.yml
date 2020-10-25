@@ -52,10 +52,6 @@ jobs:
         shell: msys2 {0}
 
     steps:
-    - name: Install core dependencies
-      run: choco install -y swig --version=3.0.12
-      shell: powershell
-
     - name: Setup Msys2
       uses: msys2/setup-msys2@v2
       with:
@@ -97,7 +93,7 @@ jobs:
       run: |
         make release
         make test
-        sudo make install
+        make install
         make test_install
 
   windows-msvc:
@@ -111,7 +107,6 @@ jobs:
     - name: Install Core Dependencies
       run: |
         choco install -y make
-        choco install -y swig --version=3.0.12
 
     - run: git config --global core.autocrlf input
       shell: bash
@@ -123,17 +118,17 @@ jobs:
 
     - name: Configure shell
       run: |
-        echo "CMAKE_GENERATOR=Ninja" >> $GITHUB_ENV
-        echo "CC=cl" >> $GITHUB_ENV
-        echo "CXX=cl" >> $GITHUB_ENV
-        echo "NO_TCMALLOC=On" >> $GITHUB_ENV
-        echo "PREFIX=%GITHUB_WORKSPACE%\install" >> $GITHUB_ENV
-        echo "CPU_CORES=%NUMBER_OF_PROCESSORS%" >> $GITHUB_ENV
-        echo "MAKE_DIR=C:\make\bin" >> $GITHUB_ENV
-        echo "TCL_DIR=%PROGRAMFILES%\Git\mingw64\bin" >> $GITHUB_ENV
+        echo 'CMAKE_GENERATOR=Ninja' >> $GITHUB_ENV
+        echo 'CC=cl' >> $GITHUB_ENV
+        echo 'CXX=cl' >> $GITHUB_ENV
+        echo 'NO_TCMALLOC=On' >> $GITHUB_ENV
+        echo 'PREFIX=%GITHUB_WORKSPACE%\install' >> $GITHUB_ENV
+        echo 'CPU_CORES=%NUMBER_OF_PROCESSORS%' >> $GITHUB_ENV
+        echo 'MAKE_DIR=C:\make\bin' >> $GITHUB_ENV
+        echo 'TCL_DIR=%PROGRAMFILES%\Git\mingw64\bin' >> $GITHUB_ENV
 
-        echo "C:\make\bin" >> $GITHUB_PATH
-        echo "%PROGRAMFILES%\Git\mingw64\bin" >> $GITHUB_PATH
+        echo 'C:\make\bin' >> $GITHUB_PATH
+        echo '%PROGRAMFILES%\Git\mingw64\bin' >> $GITHUB_PATH
 
     - name: Show shell configuration
       run: |
@@ -164,5 +159,5 @@ jobs:
 
         make release
         make test
-        sudo make install
+        make install
         make test_install
