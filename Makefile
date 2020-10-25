@@ -34,7 +34,7 @@ clean:
 	rm -rf build
 
 install: build
-	cmake --install build --config Release -j $(CPU_CORES)
+	cmake --install build --config Release
 
 uninstall:
 	rm -rf $(PREFIX)/lib/uhdm
