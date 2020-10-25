@@ -101,7 +101,7 @@ jobs:
 
     defaults:
       run:
-        shell: cmd {0}
+        shell: cmd
 
     steps:
     - name: Install Core Dependencies
