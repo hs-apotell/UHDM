@@ -37,9 +37,8 @@ matrix:
 
       env:
         - PREFIX=$TRAVIS_BUILD_DIR/install
-        - CMAKE_GENERATOR=Ninja
-        - CC=cl
-        - CXX=cl
+        - CMAKE_GENERATOR="Visual Studio 16 2019"
+        - CMAKE_GENERATOR_PLATFORM=x64
         - PATH=/c/make/bin:$PATH
         - PATH="/c/Program Files/Git/mingw64/bin:$PATH"
 
